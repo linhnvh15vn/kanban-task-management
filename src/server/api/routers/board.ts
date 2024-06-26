@@ -11,6 +11,27 @@ export const boardRouter = createTRPCRouter({
     });
   }),
 
+  getById: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.board.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          columns: {
+            include: {
+              tasks: true,
+            },
+          },
+        },
+      });
+    }),
+
   // create: publicProcedure
   //   .input(z.object({ name: z.string().min(1) }))
   //   .mutation(async ({ ctx, input }) => {
