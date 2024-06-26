@@ -1,7 +1,8 @@
 import "~/styles/globals.css";
 
-import { Inter as FontSans } from "next/font/google";
+import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
 
+import { ThemeProvider } from "~/components/providers/theme-provider";
 import { cn } from "~/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
 
@@ -25,11 +26,20 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "bg-background min-h-screen font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
