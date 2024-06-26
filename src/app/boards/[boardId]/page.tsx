@@ -23,7 +23,7 @@ export default async function Page({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="grid flex-1 overflow-scroll md:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="grid flex-1 md:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
       {searchParams.nav && <Navigation />}
       {!searchParams.nav && <NavigationOpenSidebar />}
 
