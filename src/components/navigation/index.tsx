@@ -1,40 +1,44 @@
+"use client";
+
 import React from "react";
 
-import { SquareKanban } from "lucide-react";
-
 import ModeToggle from "~/components/mode-toggle";
+import NavigationCreateButton from "~/components/navigation/navigation-create-button";
 import NavigationHideSidebar from "~/components/navigation/navigation-hide-sidebar";
 import NavigationItem from "~/components/navigation/navigation-item";
+import NavigationOpenSidebar from "~/components/navigation/navigation-open-sidebar";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { api } from "~/trpc/server";
+import { useGlobalStore } from "~/store/use-global-store";
+import { api } from "~/trpc/react";
 
-interface Props {
-  // Add your component props here
-}
+export default function Navigation() {
+  const { isNav } = useGlobalStore();
 
-export default async function Navigation(props: Props) {
-  const boards = await api.board.getAll();
+  const { data: boardData, isLoading } = api.board.getAll.useQuery();
 
-  return (
-    <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-full bg-white md:block xl:h-[calc(100vh-96px)]">
-      <div className="flex h-full flex-col space-y-4 border-r py-8">
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  return isNav ? (
+    <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-[260px] border-r bg-white md:block xl:h-[calc(100vh-96px)] xl:w-[300px]">
+      <div className="flex h-full flex-col space-y-4 py-8">
         <ScrollArea className="flex-1 pr-6">
           <h4 className="px-6 pb-5 text-muted-foreground">
-            ALL BOARDS ({boards.length})
+            ALL BOARDS ({boardData?.length})
           </h4>
-          {boards.map((board) => (
+          {boardData?.map((board) => (
             <NavigationItem key={board.id} board={board} />
           ))}
 
-          <div className="flex h-12 w-60 items-center gap-3 rounded-e-full px-6">
-            <SquareKanban />
-            <h3>+ Create a board</h3>
-          </div>
+          <NavigationCreateButton />
         </ScrollArea>
 
         <ModeToggle />
         <NavigationHideSidebar />
       </div>
     </aside>
+  ) : (
+    <NavigationOpenSidebar />
   );
 }

@@ -3,31 +3,17 @@
 import React from "react";
 
 import { Eye } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
+import { useGlobalStore } from "~/store/use-global-store";
 
-interface Props {
-  // Add your component props here
-}
-
-export default function NavigationOpenSidebar(props: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const isNav = searchParams.get("nav");
-
-  const handleClick = () => {
-    isNav
-      ? router.push(pathname ?? "")
-      : router.push(`${pathname}?nav=${isNav ? undefined : true}`);
-  };
+export default function NavigationOpenSidebar() {
+  const { toggleNav } = useGlobalStore();
 
   return (
     <Button
       type="button"
-      onClick={handleClick}
+      onClick={toggleNav}
       className="fixed bottom-8 left-0 h-12 w-14 rounded-l-none rounded-r-full p-0"
     >
       <Eye size={16} />

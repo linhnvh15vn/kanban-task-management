@@ -7,9 +7,10 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import { cn } from "~/lib/utils";
+import { type Board } from "~/types";
 
 interface Props {
-  board: any;
+  board: Board;
 }
 
 export default function NavigationItem({ board }: Props) {

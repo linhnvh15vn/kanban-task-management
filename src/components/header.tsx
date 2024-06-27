@@ -4,25 +4,23 @@ import React from "react";
 
 import { ChevronDown, EllipsisVertical, Plus } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { useGlobalStore } from "~/store/use-global-store";
 import { useModalStore } from "~/store/use-modal-store";
 
 export default function Header() {
   const { onOpen } = useModalStore();
-
-  const searchParams = useSearchParams();
-  const nav = searchParams.get("nav");
+  const { isNav } = useGlobalStore();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white">
       <div className="flex h-16 items-center border-b md:h-20 xl:h-24">
         <div
           className={cn(
-            "hidden px-6 md:block",
-            !nav ? "w-fit" : "w-64 xl:w-[300px]",
+            "hidden h-full items-center border-r px-6 md:flex",
+            !isNav ? "w-fit" : "w-[260px] xl:w-[300px]",
           )}
         >
           <Image
