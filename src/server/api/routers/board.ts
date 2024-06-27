@@ -12,11 +12,7 @@ export const boardRouter = createTRPCRouter({
   }),
 
   getById: publicProcedure
-    .input(
-      z.object({
-        id: z.number(),
-      }),
-    )
+    .input(z.object({ id: z.number() }))
     .query(({ ctx, input }) => {
       return ctx.db.board.findUnique({
         where: {
@@ -32,16 +28,20 @@ export const boardRouter = createTRPCRouter({
       });
     }),
 
-  // create: publicProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  getFirst: publicProcedure.query(({ ctx }) => {
+    return ctx.db.board.findFirst();
+  }),
 
-  //     return ctx.db.post.create({
-  //       data: {
-  //         name: input.name,
-  //       },
-  //     });
-  //   }),
+  getBoardColumns: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.board.findUnique({
+        where: {
+          id: input.id,
+        },
+        select: {
+          columns: true,
+        },
+      });
+    }),
 });
