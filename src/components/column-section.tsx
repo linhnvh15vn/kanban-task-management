@@ -1,9 +1,10 @@
 import React from "react";
 
 import TaskCard from "~/components/task-card";
+import { type Column } from "~/types";
 
 interface Props {
-  column: any;
+  column: Column;
 }
 
 export default function ColumnSection({ column }: Props) {

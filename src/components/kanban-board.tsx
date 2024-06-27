@@ -1,9 +1,10 @@
 import React from "react";
 
 import ColumnSection from "~/components/column-section";
+import { type Board } from "~/types";
 
 interface Props {
-  board: any;
+  board: Board;
 }
 
 export default function KanbanBoard({ board }: Props) {

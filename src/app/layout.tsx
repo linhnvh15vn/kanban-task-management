@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
 
+import { ModalProvider } from "~/components/providers/modal-provider";
 import { ThemeProvider } from "~/components/providers/theme-provider";
 import { cn } from "~/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
@@ -38,6 +39,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <ModalProvider />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
