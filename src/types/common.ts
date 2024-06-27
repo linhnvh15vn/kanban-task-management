@@ -8,13 +8,13 @@ import {
 export type Subtask = _Subtask;
 
 export type Task = _Task & {
-  subtasks: Subtask[];
+  subtasks?: Subtask[];
 };
 
 export type Column = _Column & {
-  tasks: Task[];
+  tasks?: Task[];
 };
 
 export type Board = _Board & {
-  columns: Column[];
+  columns?: Column[];
 };

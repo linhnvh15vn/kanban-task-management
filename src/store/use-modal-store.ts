@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+import { type Board, type Task } from "~/types";
+
 type ModalType =
   | "TASK_DETAIL"
   | "DELETE_TASK"
@@ -8,8 +10,8 @@ type ModalType =
   | "BOARD_FORM";
 
 interface ModalData {
-  task?: any;
-  board?: any;
+  task?: Task;
+  board?: Board;
 }
 
 interface ModalStore {

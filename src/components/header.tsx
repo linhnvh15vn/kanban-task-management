@@ -8,12 +8,11 @@ import { useSearchParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { useModalStore } from "~/store/use-modal-store";
 
-interface Props {
-  // Add your component props here
-}
+export default function Header() {
+  const { onOpen } = useModalStore();
 
-export default function Header(props: Props) {
   const searchParams = useSearchParams();
   const nav = searchParams.get("nav");
 
@@ -41,7 +40,11 @@ export default function Header(props: Props) {
           </h1>
 
           <div className="flex items-center gap-3">
-            <Button type="button" size="icon">
+            <Button
+              type="button"
+              size="icon"
+              onClick={() => onOpen("TASK_FORM", { task: null })}
+            >
               <Plus className="size-5" />
             </Button>
             <button type="button">

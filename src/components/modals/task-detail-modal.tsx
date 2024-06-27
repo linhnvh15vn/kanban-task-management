@@ -33,23 +33,18 @@ import { api } from "~/trpc/react";
 export default function TaskDetailModal() {
   const params = useParams();
 
-  const {
-    type,
-    data: { task },
-    onOpen,
-    onClose,
-  } = useModalStore();
+  const { type, data, onOpen, onClose } = useModalStore();
 
   const isVisible = type === "TASK_DETAIL";
 
-  const { data, isLoading } = api.task.getById.useQuery(
-    { id: task?.id },
-    { enabled: !!task },
+  const { data: taskData, isLoading } = api.task.getById.useQuery(
+    { id: data.task?.id },
+    { enabled: !!data.task },
   );
 
   const { data: columnData } = api.board.getBoardColumns.useQuery(
     { id: Number(params.boardId) },
-    { enabled: !!task },
+    { enabled: !!data.task },
   );
 
   if (isLoading) {
@@ -61,31 +56,36 @@ export default function TaskDetailModal() {
       <DialogContent>
         <DialogHeader className="space-y-6">
           <DialogTitle className="flex items-center justify-between">
-            <div>{data?.title}</div>
+            <div>{taskData?.title}</div>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <EllipsisVertical />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => onOpen("TASK_FORM")}>
+                <DropdownMenuItem
+                  onClick={() => onOpen("TASK_FORM", { task: taskData })}
+                >
                   Edit Task
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onOpen("DELETE_TASK")}>
+                <DropdownMenuItem
+                  className="text-destructive"
+                  onClick={() => onOpen("DELETE_TASK", { task: taskData })}
+                >
                   Delete Task
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </DialogTitle>
-          {data?.description && (
-            <DialogDescription>{data?.description}</DialogDescription>
+          {taskData?.description && (
+            <DialogDescription>{taskData.description}</DialogDescription>
           )}
         </DialogHeader>
 
-        {!!data?.subtasks?.length && (
+        {!!taskData?.subtasks?.length && (
           <div className="space-y-4">
             <h4>Subtasks</h4>
             <div className="space-y-2">
-              {data?.subtasks?.map((subtask) => (
+              {taskData?.subtasks?.map((subtask) => (
                 <SubtaskCard key={subtask.id} subtask={subtask} />
               ))}
             </div>
@@ -96,7 +96,7 @@ export default function TaskDetailModal() {
           <Label>Current Status</Label>
           <Select>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={data?.id} />
+              <SelectValue placeholder={taskData?.id} />
             </SelectTrigger>
             <SelectContent>
               {columnData?.columns.map((column) => (
