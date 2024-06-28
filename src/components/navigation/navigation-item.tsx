@@ -20,7 +20,7 @@ export default function NavigationItem({ board }: Props) {
     <Link
       href={`/boards/${board.id}`}
       className={cn(
-        "flex h-12 items-center gap-3 rounded-e-full px-6 text-muted-foreground",
+        "flex h-12 items-center gap-3 rounded-e-full px-6 text-muted-foreground hover:bg-primary hover:text-white",
         params.boardId === board.id.toString() && "bg-primary text-white",
       )}
     >

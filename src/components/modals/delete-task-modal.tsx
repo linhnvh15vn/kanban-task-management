@@ -47,7 +47,11 @@ export default function DeleteTaskModal() {
           >
             Delete
           </AlertDialogAction>
-          <AlertDialogCancel className={cn("w-full")}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel
+            className={cn("w-full", buttonVariants({ variant: "secondary" }))}
+          >
+            Cancel
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

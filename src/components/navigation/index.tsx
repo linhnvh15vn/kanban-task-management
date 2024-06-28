@@ -27,9 +27,11 @@ export default function Navigation() {
           <h4 className="px-6 pb-5 text-muted-foreground">
             ALL BOARDS ({boardData?.length})
           </h4>
-          {boardData?.map((board) => (
-            <NavigationItem key={board.id} board={board} />
-          ))}
+          <div className="space-y-0.5">
+            {boardData?.map((board) => (
+              <NavigationItem key={board.id} board={board} />
+            ))}
+          </div>
 
           <NavigationCreateButton />
         </ScrollArea>
