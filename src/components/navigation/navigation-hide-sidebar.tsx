@@ -11,7 +11,7 @@ export default function NavigationHideSidebar() {
 
   return (
     <button
-      className="mr-6 flex h-12 items-center gap-2.5 rounded-e-full px-6 text-muted-foreground hover:bg-primary hover:text-white"
+      className="mr-6 flex h-12 items-center gap-2.5 rounded-e-full px-6 text-muted-foreground hover:bg-secondary hover:text-secondary-foreground"
       onClick={toggleNav}
     >
       <EyeOff className="size-4" />

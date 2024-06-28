@@ -22,7 +22,11 @@ export const boardRouter = createTRPCRouter({
         include: {
           columns: {
             include: {
-              tasks: true,
+              tasks: {
+                include: {
+                  subtasks: true,
+                },
+              },
             },
           },
         },

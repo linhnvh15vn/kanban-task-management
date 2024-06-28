@@ -59,8 +59,17 @@ export default function Header({ board }: Props) {
               type="button"
               size="icon"
               onClick={() => onOpen("TASK_FORM", { task: null })}
+              className="md:hidden"
             >
               <Plus className="size-5" />
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              onClick={() => onOpen("TASK_FORM", { task: null })}
+              className="hidden md:block"
+            >
+              + Add New Task
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger aria-label="open-options-board-form">
