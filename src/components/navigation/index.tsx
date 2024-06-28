@@ -31,9 +31,9 @@ export default function Navigation() {
             {boardData?.map((board) => (
               <NavigationItem key={board.id} board={board} />
             ))}
-          </div>
 
-          <NavigationCreateButton />
+            <NavigationCreateButton />
+          </div>
         </ScrollArea>
 
         <ModeToggle />

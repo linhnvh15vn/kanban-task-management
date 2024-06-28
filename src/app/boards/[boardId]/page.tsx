@@ -2,6 +2,7 @@ import React from "react";
 
 import { redirect } from "next/navigation";
 
+import EmptyBoard from "~/components/empty-board";
 import KanbanBoard from "~/components/kanban-board";
 import { api } from "~/trpc/server";
 
@@ -19,7 +20,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <main className="overflow-x-auto">
-      <KanbanBoard board={board} />
+      {!!board.columns.length ? <KanbanBoard board={board} /> : <EmptyBoard />}
     </main>
   );
 }
