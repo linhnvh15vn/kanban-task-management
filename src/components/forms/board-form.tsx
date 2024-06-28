@@ -20,6 +20,7 @@ import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 import { schema } from "~/schemas/board.schema";
 import { useModalStore } from "~/store/use-modal-store";
+import { api } from "~/trpc/react";
 
 interface Props {
   // Add your component props here
@@ -43,7 +44,17 @@ export default function BoardForm(props: Props) {
     control: form.control,
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {};
+  const { mutate: createBoard } = api.board.create.useMutation({
+    onSuccess: () => {},
+  });
+
+  const { mutate: updateBoard } = api.board.update.useMutation({
+    onSuccess: () => {},
+  });
+
+  const onSubmit = async (d: z.infer<typeof schema>) => {
+    data.board ? updateBoard({ id: data.board.id, ...d }) : createBoard(d);
+  };
 
   return (
     <Form {...form}>

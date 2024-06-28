@@ -6,11 +6,22 @@ import { ChevronDown, EllipsisVertical, Plus } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "~/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
 import { useGlobalStore } from "~/store/use-global-store";
 import { useModalStore } from "~/store/use-modal-store";
+import { type Board } from "~/types";
 
-export default function Header() {
+interface Props {
+  board: Board;
+}
+
+export default function Header({ board }: Props) {
   const { onOpen } = useModalStore();
   const { isNav } = useGlobalStore();
 
@@ -33,8 +44,8 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-between px-4">
           <h1 className="flex items-center">
-            Platform Launch
-            <ChevronDown className="size-4 text-primary" />
+            {board.name}
+            <ChevronDown className="size-4 text-primary sm:hidden" />
           </h1>
 
           <div className="flex items-center gap-3">
@@ -45,9 +56,32 @@ export default function Header() {
             >
               <Plus className="size-5" />
             </Button>
-            <button type="button">
-              <EllipsisVertical className="size-5" />
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger aria-label="open-options-board-form">
+                <EllipsisVertical color="gray" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent sideOffset={24}>
+                <DropdownMenuItem
+                  onClick={() =>
+                    onOpen("BOARD_FORM", {
+                      board,
+                    })
+                  }
+                >
+                  Edit Board
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-destructive"
+                  onClick={() =>
+                    onOpen("DELETE_BOARD", {
+                      board,
+                    })
+                  }
+                >
+                  Delete Board
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
