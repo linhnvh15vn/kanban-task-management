@@ -14,7 +14,7 @@ export default function TaskCard({ task }: Props) {
 
   return (
     <div
-      className="cursor-pointer rounded-lg bg-white px-4 py-6 shadow-md"
+      className="cursor-pointer rounded-lg bg-card px-4 py-6 shadow-md"
       onClick={() => onOpen("TASK_DETAIL", { task })}
     >
       <h3>{task.title}</h3>

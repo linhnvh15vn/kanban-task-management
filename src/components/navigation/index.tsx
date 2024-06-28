@@ -21,7 +21,7 @@ export default function Navigation() {
   }
 
   return isNav ? (
-    <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-[260px] border-r bg-white md:block xl:h-[calc(100vh-96px)] xl:w-[300px]">
+    <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-[260px] border-r bg-card md:block xl:h-[calc(100vh-96px)] xl:w-[300px]">
       <div className="flex h-full flex-col space-y-4 py-8">
         <ScrollArea className="flex-1 pr-6">
           <h4 className="px-6 pb-5 text-muted-foreground">

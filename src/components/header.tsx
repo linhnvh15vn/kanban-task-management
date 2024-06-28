@@ -4,6 +4,7 @@ import React from "react";
 
 import { ChevronDown, EllipsisVertical, Plus } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -24,9 +25,10 @@ interface Props {
 export default function Header({ board }: Props) {
   const { onOpen } = useModalStore();
   const { isNav } = useGlobalStore();
+  const { theme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white">
+    <header className="sticky top-0 z-50 w-full bg-card">
       <div className="flex h-16 items-center border-b md:h-20 xl:h-24">
         <div
           className={cn(
@@ -35,7 +37,11 @@ export default function Header({ board }: Props) {
           )}
         >
           <Image
-            src="/assets/logo-dark.svg"
+            src={
+              theme === "light"
+                ? "/assets/logo-dark.svg"
+                : "/assets/logo-light.svg"
+            }
             width={153}
             height={26}
             alt="Kanban Logo"
