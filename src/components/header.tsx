@@ -37,11 +37,7 @@ export default function Header({ board }: Props) {
           )}
         >
           <Image
-            src={
-              theme === "light"
-                ? "/assets/logo-dark.svg"
-                : "/assets/logo-light.svg"
-            }
+            src="/assets/logo-dark.svg"
             width={153}
             height={26}
             alt="Kanban Logo"

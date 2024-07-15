@@ -1,13 +1,18 @@
 import { z } from "zod";
 
-export const schema = z.object({
+export const boardSchema = z.object({
   name: z.string().min(1, "Can't not be empty!"),
   columns: z
     .array(
       z.object({
-        id: z.number().optional(),
         name: z.string(),
       }),
     )
     .optional(),
+});
+
+export type InferredBoardSchema = z.infer<typeof boardSchema>;
+
+export const updateBoardSchema = boardSchema.partial().extend({
+  id: z.number().min(1),
 });

@@ -18,7 +18,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
-import { schema } from "~/schemas/board.schema";
+import { boardSchema, type InferredBoardSchema } from "~/schemas/board.schema";
 import { useModalStore } from "~/store/use-modal-store";
 import { api } from "~/trpc/react";
 
@@ -26,7 +26,7 @@ interface Props {
   // Add your component props here
 }
 
-const defaultValues: z.infer<typeof schema> = {
+const defaultValues: InferredBoardSchema = {
   name: "",
   columns: [{ name: "Todo" }, { name: "Doing" }, { name: "Done" }],
 };
@@ -36,12 +36,12 @@ export default function BoardForm(props: Props) {
 
   const { data, onClose } = useModalStore();
 
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm<InferredBoardSchema>({
     defaultValues: data.board ?? defaultValues,
-    resolver: zodResolver(schema),
+    resolver: zodResolver(boardSchema),
   });
 
-  const { fields, append, remove } = useFieldArray<z.infer<typeof schema>>({
+  const { fields, append, remove } = useFieldArray<InferredBoardSchema>({
     keyName: "fieldId" as "id",
     name: "columns",
     control: form.control,
@@ -55,15 +55,15 @@ export default function BoardForm(props: Props) {
     onSuccess: () => {},
   });
 
-  const { mutate: deleteColumn } = api.column.delete.useMutation({
-    onSuccess: () => {},
-  });
+  const { mutate: deleteColumn } = api.column.delete.useMutation();
 
-  const onSubmit = async (d: z.infer<typeof schema>) => {
-    // data.board ? updateBoard({ id: data.board.id, ...d }) : createBoard(d);
-    const results = await Promise.all(
-      deleteColumnIds.map((id) => deleteColumn({ id })),
-    );
+  const onSubmit = async (formData: InferredBoardSchema) => {
+    data.board
+      ? updateBoard({ id: data.board.id, ...formData })
+      : createBoard(formData);
+
+    // Delete columns
+    await Promise.all(deleteColumnIds.map((id) => deleteColumn({ id })));
   };
 
   const handleRemoveColumn = (columnId: number, index: number) => {
@@ -95,12 +95,10 @@ export default function BoardForm(props: Props) {
         <div className="space-y-3">
           {fields.map((field, index) => (
             <FormField
-              key={field.id}
+              key={field.fieldId}
               control={form.control}
               name={`columns.${index}.name`}
               render={({ field: formField }) => {
-                console.log(field);
-
                 return (
                   <FormItem>
                     <FormLabel className={cn(index !== 0 && "sr-only")}>
@@ -126,6 +124,7 @@ export default function BoardForm(props: Props) {
           <Button
             type="button"
             className="w-full"
+            variant="secondary"
             onClick={() => append({ name: "" })}
           >
             + Add New Column

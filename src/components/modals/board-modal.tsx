@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -25,6 +26,7 @@ export default function BoardModal() {
           <DialogTitle>
             {data.board ? "Edit Board" : "Add New Board"}
           </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <BoardForm />
         <DialogFooter>

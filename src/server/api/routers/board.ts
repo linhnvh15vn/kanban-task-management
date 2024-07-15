@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { schema } from "~/schemas/board.schema";
+import { boardSchema, updateBoardSchema } from "~/schemas/board.schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const boardRouter = createTRPCRouter({
@@ -50,7 +50,7 @@ export const boardRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure.input(schema).mutation(({ ctx, input }) => {
+  create: publicProcedure.input(boardSchema).mutation(({ ctx, input }) => {
     return ctx.db.board.create({
       data: {
         name: input.name,
@@ -64,13 +64,10 @@ export const boardRouter = createTRPCRouter({
   }),
 
   update: publicProcedure
-    .input(
-      schema.partial().extend({
-        id: z.number(),
-      }),
-    )
+    .input(updateBoardSchema)
     .mutation(async ({ ctx, input }) => {
       const newColumns = input.columns?.filter((column) => !column.id);
+      const updateColumns = input.columns?.filter((column) => column.id);
 
       return ctx.db.board.update({
         data: {
@@ -79,6 +76,14 @@ export const boardRouter = createTRPCRouter({
             createMany: {
               data: newColumns ?? [],
             },
+            update: updateColumns?.map((column) => ({
+              data: {
+                name: column.name,
+              },
+              where: {
+                id: column.id,
+              },
+            })),
           },
         },
         where: {
