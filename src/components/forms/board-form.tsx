@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -32,6 +32,8 @@ const defaultValues: z.infer<typeof schema> = {
 };
 
 export default function BoardForm(props: Props) {
+  const [deleteColumnIds, setDeleteColumnIds] = useState<number[]>([]);
+
   const { data, onClose } = useModalStore();
 
   const form = useForm<z.infer<typeof schema>>({
@@ -40,6 +42,7 @@ export default function BoardForm(props: Props) {
   });
 
   const { fields, append, remove } = useFieldArray<z.infer<typeof schema>>({
+    keyName: "fieldId" as "id",
     name: "columns",
     control: form.control,
   });
@@ -52,8 +55,20 @@ export default function BoardForm(props: Props) {
     onSuccess: () => {},
   });
 
+  const { mutate: deleteColumn } = api.column.delete.useMutation({
+    onSuccess: () => {},
+  });
+
   const onSubmit = async (d: z.infer<typeof schema>) => {
-    data.board ? updateBoard({ id: data.board.id, ...d }) : createBoard(d);
+    // data.board ? updateBoard({ id: data.board.id, ...d }) : createBoard(d);
+    const results = await Promise.all(
+      deleteColumnIds.map((id) => deleteColumn({ id })),
+    );
+  };
+
+  const handleRemoveColumn = (columnId: number, index: number) => {
+    remove(index);
+    setDeleteColumnIds((prev) => [...prev, columnId]);
   };
 
   return (
@@ -83,25 +98,29 @@ export default function BoardForm(props: Props) {
               key={field.id}
               control={form.control}
               name={`columns.${index}.name`}
-              render={({ field: formField }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    Columns
-                  </FormLabel>
-                  <FormControl>
-                    <div className="flex items-center gap-4">
-                      <Input {...formField} />
-                      <button
-                        type="button"
-                        aria-label="remove"
-                        onClick={() => remove(index)}
-                      >
-                        <X />
-                      </button>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              )}
+              render={({ field: formField }) => {
+                console.log(field);
+
+                return (
+                  <FormItem>
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>
+                      Columns
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex items-center gap-4">
+                        <Input {...formField} />
+                        <button
+                          type="button"
+                          aria-label="remove"
+                          onClick={() => handleRemoveColumn(field.id, index)}
+                        >
+                          <X />
+                        </button>
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                );
+              }}
             />
           ))}
           <Button

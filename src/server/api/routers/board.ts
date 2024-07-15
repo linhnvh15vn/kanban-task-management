@@ -63,7 +63,6 @@ export const boardRouter = createTRPCRouter({
     });
   }),
 
-  // fix later
   update: publicProcedure
     .input(
       schema.partial().extend({
@@ -71,26 +70,16 @@ export const boardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const oldBoardColumns = await ctx.db.board.findUnique({
-        where: {
-          id: input.id,
-        },
-        select: {
-          columns: true,
-        },
-      });
-
-      const newBoardColumns = input.columns;
-
-      console.log({
-        old: oldBoardColumns,
-        new: newBoardColumns,
-      });
+      const newColumns = input.columns?.filter((column) => !column.id);
 
       return ctx.db.board.update({
         data: {
           name: input.name,
-          columns: {},
+          columns: {
+            createMany: {
+              data: newColumns ?? [],
+            },
+          },
         },
         where: {
           id: input.id,

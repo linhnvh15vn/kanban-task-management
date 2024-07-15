@@ -1,4 +1,5 @@
 import { boardRouter } from "~/server/api/routers/board";
+import { columnRouter } from "~/server/api/routers/column";
 import { taskRouter } from "~/server/api/routers/task";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -10,6 +11,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   board: boardRouter,
   task: taskRouter,
+  column: columnRouter,
 });
 
 // export type definition of API

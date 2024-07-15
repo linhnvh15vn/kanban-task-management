@@ -11,7 +11,7 @@ export default function NavigationCreateButton() {
 
   return (
     <div
-      className="flex h-12 cursor-pointer items-center gap-3 rounded-e-full px-6 text-primary hover:bg-primary hover:text-white"
+      className="flex h-12 cursor-pointer items-center gap-3 rounded-e-full px-6 text-primary hover:bg-secondary hover:text-primary"
       onClick={() => onOpen("BOARD_FORM", { task: null })}
     >
       <SquareKanban />

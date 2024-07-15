@@ -5,6 +5,7 @@ export const schema = z.object({
   columns: z
     .array(
       z.object({
+        id: z.number().optional(),
         name: z.string(),
       }),
     )
