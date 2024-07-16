@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <main className="overflow-x-auto">
+    <main className="flex-1 overflow-x-auto">
       {!!board.columns.length ? <KanbanBoard board={board} /> : <EmptyBoard />}
     </main>
   );

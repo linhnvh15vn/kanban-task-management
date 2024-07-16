@@ -20,7 +20,7 @@ export default async function Layout({ children, params }: Props) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header board={board} />
-      <div className="grid flex-1 md:grid-cols-[auto_minmax(0,1fr)] xl:grid-cols-[auto_minmax(0,1fr)]">
+      <div className="flex flex-1">
         <Navigation />
         {children}
       </div>

@@ -179,7 +179,7 @@ export default function TaskForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder={field.value} />
+                    <SelectValue placeholder={field.value || "Select status"} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

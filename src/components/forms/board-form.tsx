@@ -103,27 +103,25 @@ export default function BoardForm() {
               key={field.fieldId}
               control={form.control}
               name={`columns.${index}.name`}
-              render={({ field: formField }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && "sr-only")}>
-                      Columns
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex items-center gap-4">
-                        <Input {...formField} />
-                        <button
-                          type="button"
-                          aria-label="remove"
-                          onClick={() => handleRemoveColumn(field.id, index)}
-                        >
-                          <X className="text-muted-foreground" />
-                        </button>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                );
-              }}
+              render={({ field: formField }) => (
+                <FormItem>
+                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                    Columns
+                  </FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-4">
+                      <Input {...formField} />
+                      <button
+                        type="button"
+                        aria-label="remove"
+                        onClick={() => handleRemoveColumn(field.id, index)}
+                      >
+                        <X className="text-muted-foreground" />
+                      </button>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
             />
           ))}
           <Button

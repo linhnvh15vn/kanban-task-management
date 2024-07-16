@@ -32,12 +32,7 @@ export default function RootLayout({
         )}
       >
         <TRPCReactProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {children}
             <ModalProvider />
           </ThemeProvider>
