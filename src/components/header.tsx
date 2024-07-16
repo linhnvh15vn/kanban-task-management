@@ -6,6 +6,7 @@ import { ChevronDown, EllipsisVertical, Plus } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
+import NavigationMobile from "~/components/navigation/navigation-mobile";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -36,25 +37,45 @@ export default function Header({ board }: Props) {
             !isNav ? "w-fit" : "w-[260px] xl:w-[300px]",
           )}
         >
-          <Image
-            src="/assets/logo-dark.svg"
-            width={153}
-            height={26}
-            alt="Kanban Logo"
-          />
+          {theme === "light" ? (
+            <Image
+              src="/assets/logo-dark.svg"
+              width={153}
+              height={26}
+              alt="Kanban Logo"
+            />
+          ) : (
+            <Image
+              src="/assets/logo-light.svg"
+              width={153}
+              height={26}
+              alt="Kanban Logo"
+            />
+          )}
         </div>
 
         <div className="flex flex-1 items-center justify-between px-4">
-          <h1 className="flex items-center">
-            {board.name}
-            <ChevronDown className="size-4 text-primary sm:hidden" />
-          </h1>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/assets/logo-mobile.svg"
+              width={24}
+              height={25}
+              alt="Logo Mobile"
+              className="md:hidden"
+            />
+            <NavigationMobile>
+              <h1 className="flex items-center gap-2 text-lg md:text-2xl">
+                {board.name}
+                <ChevronDown className="size-5 stroke-2 text-primary sm:hidden" />
+              </h1>
+            </NavigationMobile>
+          </div>
 
           <div className="flex items-center gap-3">
             <Button
               type="button"
               size="icon"
-              onClick={() => onOpen("TASK_FORM", { task: null })}
+              onClick={() => onOpen("TASK_FORM")}
               className="md:hidden"
             >
               <Plus className="size-5" />
@@ -62,7 +83,7 @@ export default function Header({ board }: Props) {
             <Button
               type="button"
               size="lg"
-              onClick={() => onOpen("TASK_FORM", { task: null })}
+              onClick={() => onOpen("TASK_FORM")}
               className="hidden md:block"
             >
               + Add New Task
