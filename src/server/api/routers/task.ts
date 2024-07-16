@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { taskSchema } from "~/schemas/task.schema";
+import { taskSchema, updateTaskSchema } from "~/schemas/task.schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
@@ -37,7 +37,34 @@ export const taskRouter = createTRPCRouter({
     });
   }),
 
-  // update:
+  update: publicProcedure.input(updateTaskSchema).mutation(({ ctx, input }) => {
+    const newSubtasks = input.subtasks?.filter((subtask) => !subtask.id);
+    const updateSubtask = input.subtasks?.filter((subtask) => subtask.id);
+
+    return ctx.db.task.update({
+      data: {
+        title: input.title,
+        description: input.description,
+        columnId: input.columnId,
+        subtasks: {
+          createMany: {
+            data: newSubtasks ?? [],
+          },
+          update: updateSubtask?.map((subtask) => ({
+            data: {
+              title: subtask.title,
+            },
+            where: {
+              id: subtask.id,
+            },
+          })),
+        },
+      },
+      where: {
+        id: input.id,
+      },
+    });
+  }),
 
   delete: publicProcedure
     .input(z.object({ id: z.string().min(1) }))

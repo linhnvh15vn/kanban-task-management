@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -38,10 +38,12 @@ const defaultValues: InferredTaskSchema = {
 };
 
 export default function TaskForm() {
+  const [deleteSubtaskIds, setDeleteSubtaskIds] = useState<string[]>([]);
+
   const router = useRouter();
   const params = useParams();
 
-  const { data, onClose } = useModalStore();
+  const { data, onOpen, onClose } = useModalStore();
 
   const form = useForm({
     defaultValues: data.task ?? defaultValues,
@@ -49,6 +51,7 @@ export default function TaskForm() {
   });
 
   const { fields, append, remove } = useFieldArray({
+    keyName: "fieldId" as "id",
     name: "subtasks",
     control: form.control,
   });
@@ -60,11 +63,36 @@ export default function TaskForm() {
   const { mutate: createTask } = api.task.create.useMutation({
     onSuccess: () => {
       onClose();
+      router.refresh();
     },
   });
 
+  const { mutate: updateTask } = api.task.update.useMutation({
+    onSuccess: () => {
+      onClose();
+      router.refresh();
+    },
+    onSettled: (data) => {
+      onOpen("TASK_DETAIL", { task: data });
+    },
+  });
+
+  const { mutate: deleteSubtask } = api.subtask.delete.useMutation();
+
   const onSubmit = async (formData: InferredTaskSchema) => {
-    createTask(formData);
+    data.task
+      ? updateTask({ id: data.task.id, ...formData })
+      : createTask(formData);
+
+    // Delete subtasks
+    if (!!deleteSubtaskIds.length) {
+      await Promise.all(deleteSubtaskIds.map((id) => deleteSubtask({ id })));
+    }
+  };
+
+  const handleRemoveSubtask = (subtaskId: string, index: number) => {
+    remove(index);
+    setDeleteSubtaskIds((prev) => [...prev, subtaskId]);
   };
 
   return (
@@ -108,7 +136,7 @@ export default function TaskForm() {
         <div className="space-y-3">
           {fields.map((field, index) => (
             <FormField
-              key={field.id}
+              key={field.fieldId}
               control={form.control}
               name={`subtasks.${index}.title`}
               render={({ field: formField }) => (
@@ -122,7 +150,7 @@ export default function TaskForm() {
                       <button
                         type="button"
                         aria-label="remove"
-                        onClick={() => remove(index)}
+                        onClick={() => handleRemoveSubtask(field.id, index)}
                       >
                         <X />
                       </button>
@@ -133,7 +161,7 @@ export default function TaskForm() {
             />
           ))}
           <Button
-            disabled={fields.length >= 3}
+            disabled={fields.length >= 5}
             type="button"
             className="w-full"
             onClick={() => append({ title: "" })}
@@ -155,7 +183,7 @@ export default function TaskForm() {
                 </FormControl>
                 <SelectContent>
                   {columnData?.columns.map((column) => (
-                    <SelectItem key={column.id} value={column.id.toString()}>
+                    <SelectItem key={column.id} value={column.id}>
                       {column.name}
                     </SelectItem>
                   ))}

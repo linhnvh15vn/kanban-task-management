@@ -32,60 +32,50 @@ import { api } from "~/trpc/react";
 
 export default function TaskDetailModal() {
   const params = useParams();
-
   const { type, data, onOpen, onClose } = useModalStore();
 
   const isVisible = type === "TASK_DETAIL";
-
-  const { data: taskData, isLoading } = api.task.getById.useQuery(
-    { id: data.task?.id },
-    { enabled: !!data.task },
-  );
 
   const { data: columnData } = api.board.getBoardColumns.useQuery(
     { id: params.boardId as string },
     { enabled: !!data.task },
   );
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="space-y-6">
           <DialogTitle className="flex items-center justify-between">
-            <div>{taskData?.title}</div>
+            {data.task?.title}
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <EllipsisVertical />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem
-                  onClick={() => onOpen("TASK_FORM", { task: taskData })}
+                  onClick={() => onOpen("TASK_FORM", { task: data.task })}
                 >
                   Edit Task
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-destructive"
-                  onClick={() => onOpen("DELETE_TASK", { task: taskData })}
+                  onClick={() => onOpen("DELETE_TASK", { task: data.task })}
                 >
                   Delete Task
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </DialogTitle>
-          {taskData?.description && (
-            <DialogDescription>{taskData.description}</DialogDescription>
+          {data.task?.description && (
+            <DialogDescription>{data.task.description}</DialogDescription>
           )}
         </DialogHeader>
 
-        {!!taskData?.subtasks?.length && (
+        {!!data.task?.subtasks?.length && (
           <div className="space-y-4">
             <h4>Subtasks</h4>
             <div className="space-y-2">
-              {taskData?.subtasks?.map((subtask) => (
+              {data.task?.subtasks?.map((subtask) => (
                 <SubtaskCard key={subtask.id} subtask={subtask} />
               ))}
             </div>
@@ -96,7 +86,7 @@ export default function TaskDetailModal() {
           <Label>Current Status</Label>
           <Select>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={taskData?.id} />
+              <SelectValue placeholder={data.task?.column.name} />
             </SelectTrigger>
             <SelectContent>
               {columnData?.columns.map((column) => (

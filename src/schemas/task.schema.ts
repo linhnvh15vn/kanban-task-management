@@ -6,12 +6,16 @@ export const taskSchema = z.object({
   subtasks: z
     .array(
       z.object({
-        title: z.string(),
+        id: z.string().optional(),
+        title: z.string().min(1, "Can't be empty!"),
       }),
     )
-    .max(3)
     .optional(),
   columnId: z.string().min(1, "Can't be empty!"),
 });
 
 export type InferredTaskSchema = z.infer<typeof taskSchema>;
+
+export const updateTaskSchema = taskSchema.partial().extend({
+  id: z.string().min(1),
+});

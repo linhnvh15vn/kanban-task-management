@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import { useRouter } from "next/navigation";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +20,7 @@ import { useModalStore } from "~/store/use-modal-store";
 import { api } from "~/trpc/react";
 
 export default function DeleteTaskModal() {
+  const router = useRouter();
   const { type, data, onClose } = useModalStore();
 
   const isVisible = type === "DELETE_TASK";
@@ -25,6 +28,7 @@ export default function DeleteTaskModal() {
   const { mutate: deleteTask } = api.task.delete.useMutation({
     onSuccess: () => {
       onClose();
+      router.refresh();
     },
   });
 
