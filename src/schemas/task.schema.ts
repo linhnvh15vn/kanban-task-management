@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const schema = z.object({
+export const taskSchema = z.object({
   title: z.string().min(1, "Can't be empty!"),
   description: z.string().nullable(),
   subtasks: z
@@ -13,3 +13,5 @@ export const schema = z.object({
     .optional(),
   columnId: z.string().min(1, "Can't be empty!"),
 });
+
+export type InferredTaskSchema = z.infer<typeof taskSchema>;

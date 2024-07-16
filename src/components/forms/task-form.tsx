@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
-import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -27,11 +26,11 @@ import {
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import { cn } from "~/lib/utils";
-import { schema } from "~/schemas/task.schema";
+import { taskSchema, type InferredTaskSchema } from "~/schemas/task.schema";
 import { useModalStore } from "~/store/use-modal-store";
 import { api } from "~/trpc/react";
 
-const defaultValues: z.infer<typeof schema> = {
+const defaultValues: InferredTaskSchema = {
   title: "",
   description: null,
   subtasks: [{ title: "" }, { title: "" }],
@@ -46,7 +45,7 @@ export default function TaskForm() {
 
   const form = useForm({
     defaultValues: data.task ?? defaultValues,
-    resolver: zodResolver(schema),
+    resolver: zodResolver(taskSchema),
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -55,7 +54,7 @@ export default function TaskForm() {
   });
 
   const { data: columnData } = api.board.getBoardColumns.useQuery({
-    id: Number(params.boardId),
+    id: params.boardId as string,
   });
 
   const { mutate: createTask } = api.task.create.useMutation({
@@ -64,8 +63,8 @@ export default function TaskForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
-    createTask(data);
+  const onSubmit = async (formData: InferredTaskSchema) => {
+    createTask(formData);
   };
 
   return (

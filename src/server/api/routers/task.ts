@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { schema } from "~/schemas/task.schema";
+import { taskSchema } from "~/schemas/task.schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const taskRouter = createTRPCRouter({
   getById: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.task.findUnique({
         where: {
@@ -22,7 +22,7 @@ export const taskRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure.input(schema).mutation(({ ctx, input }) => {
+  create: publicProcedure.input(taskSchema).mutation(({ ctx, input }) => {
     return ctx.db.task.create({
       data: {
         title: input.title,
@@ -32,7 +32,7 @@ export const taskRouter = createTRPCRouter({
             data: input.subtasks ?? [],
           },
         },
-        columnId: Number(input.columnId),
+        columnId: input.columnId,
       },
     });
   }),
@@ -40,7 +40,7 @@ export const taskRouter = createTRPCRouter({
   // update:
 
   delete: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string().min(1) }))
     .mutation(({ ctx, input }) => {
       return ctx.db.task.delete({
         where: {

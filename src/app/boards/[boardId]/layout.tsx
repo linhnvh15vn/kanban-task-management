@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default async function Layout({ children, params }: Props) {
-  const board = await api.board.getById({ id: Number(params.boardId) });
+  const board = await api.board.getById({ id: params.boardId });
   if (!board) {
     return notFound();
   }

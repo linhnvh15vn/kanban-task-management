@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { boardSchema, updateBoardSchema } from "~/schemas/board.schema";
+import { createBoardSchema, updateBoardSchema } from "~/schemas/board.schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const boardRouter = createTRPCRouter({
@@ -13,7 +13,7 @@ export const boardRouter = createTRPCRouter({
   }),
 
   getById: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.board.findUnique({
         where: {
@@ -38,7 +38,7 @@ export const boardRouter = createTRPCRouter({
   }),
 
   getBoardColumns: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.board.findUnique({
         where: {
@@ -50,18 +50,20 @@ export const boardRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure.input(boardSchema).mutation(({ ctx, input }) => {
-    return ctx.db.board.create({
-      data: {
-        name: input.name,
-        columns: {
-          createMany: {
-            data: input.columns ?? [],
+  create: publicProcedure
+    .input(createBoardSchema)
+    .mutation(({ ctx, input }) => {
+      return ctx.db.board.create({
+        data: {
+          name: input.name,
+          columns: {
+            createMany: {
+              data: input.columns ?? [],
+            },
           },
         },
-      },
-    });
-  }),
+      });
+    }),
 
   update: publicProcedure
     .input(updateBoardSchema)
@@ -93,7 +95,7 @@ export const boardRouter = createTRPCRouter({
     }),
 
   delete: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string().min(1) }))
     .mutation(({ ctx, input }) => {
       return ctx.db.board.delete({
         where: {

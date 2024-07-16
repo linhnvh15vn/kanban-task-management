@@ -8,12 +8,12 @@ import { api } from "~/trpc/server";
 
 interface Props {
   params: {
-    boardId: number;
+    boardId: string;
   };
 }
 
 export default async function Page({ params }: Props) {
-  const board = await api.board.getById({ id: Number(params.boardId) });
+  const board = await api.board.getById({ id: params.boardId });
   if (!board) {
     return redirect("/");
   }

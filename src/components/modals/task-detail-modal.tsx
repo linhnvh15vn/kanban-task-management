@@ -43,7 +43,7 @@ export default function TaskDetailModal() {
   );
 
   const { data: columnData } = api.board.getBoardColumns.useQuery(
-    { id: Number(params.boardId) },
+    { id: params.boardId as string },
     { enabled: !!data.task },
   );
 
@@ -100,7 +100,7 @@ export default function TaskDetailModal() {
             </SelectTrigger>
             <SelectContent>
               {columnData?.columns.map((column) => (
-                <SelectItem key={column.id} value={column.id.toString()}>
+                <SelectItem key={column.id} value={column.id}>
                   {column.name}
                 </SelectItem>
               ))}

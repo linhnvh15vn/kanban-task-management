@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -22,17 +21,13 @@ import { boardSchema, type InferredBoardSchema } from "~/schemas/board.schema";
 import { useModalStore } from "~/store/use-modal-store";
 import { api } from "~/trpc/react";
 
-interface Props {
-  // Add your component props here
-}
-
 const defaultValues: InferredBoardSchema = {
   name: "",
   columns: [{ name: "Todo" }, { name: "Doing" }, { name: "Done" }],
 };
 
-export default function BoardForm(props: Props) {
-  const [deleteColumnIds, setDeleteColumnIds] = useState<number[]>([]);
+export default function BoardForm() {
+  const [deleteColumnIds, setDeleteColumnIds] = useState<string[]>([]);
 
   const { data, onClose } = useModalStore();
 
@@ -66,7 +61,7 @@ export default function BoardForm(props: Props) {
     await Promise.all(deleteColumnIds.map((id) => deleteColumn({ id })));
   };
 
-  const handleRemoveColumn = (columnId: number, index: number) => {
+  const handleRemoveColumn = (columnId: string, index: number) => {
     remove(index);
     setDeleteColumnIds((prev) => [...prev, columnId]);
   };

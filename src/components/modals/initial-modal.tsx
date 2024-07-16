@@ -11,25 +11,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { useModalStore } from "~/store/use-modal-store";
 
 export default function InitialModal() {
-  const { type, data, onClose } = useModalStore();
-
-  const isVisible = type === "BOARD_FORM";
-
   return (
-    <Dialog open={isVisible} onOpenChange={onClose}>
+    <Dialog open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {data.board ? "Edit Board" : "Add New Board"}
-          </DialogTitle>
+          <DialogTitle>Add New Board</DialogTitle>
         </DialogHeader>
         <BoardForm />
         <DialogFooter>
           <Button type="submit" form="board-form" className="w-full">
-            {data.board ? "Saves Changes" : "Create New Board"}
+            Create New Board
           </Button>
         </DialogFooter>
       </DialogContent>

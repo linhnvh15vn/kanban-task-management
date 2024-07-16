@@ -5,7 +5,8 @@ export const boardSchema = z.object({
   columns: z
     .array(
       z.object({
-        name: z.string(),
+        id: z.string().optional(),
+        name: z.string().min(1, "Can't not be empty!"),
       }),
     )
     .optional(),
@@ -13,6 +14,8 @@ export const boardSchema = z.object({
 
 export type InferredBoardSchema = z.infer<typeof boardSchema>;
 
+export const createBoardSchema = boardSchema;
+
 export const updateBoardSchema = boardSchema.partial().extend({
-  id: z.number().min(1),
+  id: z.string().min(1),
 });
