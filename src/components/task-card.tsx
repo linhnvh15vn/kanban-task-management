@@ -2,6 +2,12 @@
 
 import React from "react";
 
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { useModalStore } from "~/store/use-modal-store";
 import { type Task } from "~/types";
 
@@ -12,19 +18,26 @@ interface Props {
 export default function TaskCard({ task }: Props) {
   const { onOpen } = useModalStore();
 
-  const completedSubtask = task.subtasks?.filter(
-    (subtask) => subtask.isCompleted === true,
-  ).length;
+  const getDescription = () => {
+    const total = task.subtasks?.length;
+    const done = task.subtasks?.filter((subtask) => subtask.isCompleted).length;
+
+    return `${done} of ${total} subtasks`;
+  };
 
   return (
-    <div
-      className="cursor-pointer rounded-lg bg-card px-4 py-6 shadow-md"
+    <Card
+      className="cursor-pointer"
       onClick={() => onOpen("TASK_DETAIL", { task })}
     >
-      <h3 className="hover:text-primary">{task.title}</h3>
-      <p className="text-muted-foreground">
-        {`${completedSubtask} of ${task.subtasks?.length} subtasks`}
-      </p>
-    </div>
+      <CardHeader>
+        <CardTitle className="text-sm font-bold hover:text-primary">
+          {task.title}
+        </CardTitle>
+        <CardDescription className="text-xs font-bold">
+          {getDescription()}
+        </CardDescription>
+      </CardHeader>
+    </Card>
   );
 }

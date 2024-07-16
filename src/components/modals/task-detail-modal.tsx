@@ -41,15 +41,22 @@ export default function TaskDetailModal() {
     { enabled: !!data.task },
   );
 
+  const getRemainingSubtask = () => {
+    const total = data.task?.subtasks?.length;
+    const done = data.task?.subtasks?.filter((st) => st.isCompleted).length;
+
+    return `Subtasks (${done} of ${total})`;
+  };
+
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="space-y-6">
-          <DialogTitle className="flex items-center justify-between">
+          <DialogTitle className="flex items-center justify-between gap-6">
             {data.task?.title}
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <EllipsisVertical />
+                <EllipsisVertical className="text-muted-foreground" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem
@@ -73,7 +80,7 @@ export default function TaskDetailModal() {
 
         {!!data.task?.subtasks?.length && (
           <div className="space-y-4">
-            <h4>Subtasks</h4>
+            <h3 className="text-muted-foreground">{getRemainingSubtask()}</h3>
             <div className="space-y-2">
               {data.task?.subtasks?.map((subtask) => (
                 <SubtaskCard key={subtask.id} subtask={subtask} />
@@ -83,10 +90,12 @@ export default function TaskDetailModal() {
         )}
 
         <div className="space-y-2">
-          <Label>Current Status</Label>
+          <Label>
+            <h3 className="text-muted-foreground">Current Status</h3>
+          </Label>
           <Select>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={data.task?.column.name} />
+              <SelectValue placeholder={data.task?.column!.name} />
             </SelectTrigger>
             <SelectContent>
               {columnData?.columns.map((column) => (
