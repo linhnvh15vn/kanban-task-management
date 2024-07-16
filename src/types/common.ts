@@ -8,6 +8,7 @@ import {
 export type Subtask = _Subtask;
 
 export type Task = _Task & {
+  column?: Pick<Column, "id" | "name">;
   subtasks?: Subtask[];
 };
 
