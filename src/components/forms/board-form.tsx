@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
@@ -27,6 +28,7 @@ const defaultValues: InferredBoardSchema = {
 };
 
 export default function BoardForm() {
+  const router = useRouter();
   const [deleteColumnIds, setDeleteColumnIds] = useState<string[]>([]);
 
   const { data, onClose } = useModalStore();
@@ -43,11 +45,17 @@ export default function BoardForm() {
   });
 
   const { mutate: createBoard } = api.board.create.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      onClose();
+      router.refresh();
+    },
   });
 
   const { mutate: updateBoard } = api.board.update.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      onClose();
+      router.refresh();
+    },
   });
 
   const { mutate: deleteColumn } = api.column.delete.useMutation();
@@ -58,7 +66,9 @@ export default function BoardForm() {
       : createBoard(formData);
 
     // Delete columns
-    await Promise.all(deleteColumnIds.map((id) => deleteColumn({ id })));
+    if (!!deleteColumnIds) {
+      await Promise.all(deleteColumnIds.map((id) => deleteColumn({ id })));
+    }
   };
 
   const handleRemoveColumn = (columnId: string, index: number) => {
@@ -107,7 +117,7 @@ export default function BoardForm() {
                           aria-label="remove"
                           onClick={() => handleRemoveColumn(field.id, index)}
                         >
-                          <X />
+                          <X className="text-muted-foreground" />
                         </button>
                       </div>
                     </FormControl>

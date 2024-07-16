@@ -1,6 +1,7 @@
 import React from "react";
 
 import ColumnSection from "~/components/column-section";
+import { Card } from "~/components/ui/card";
 import { type Board } from "~/types";
 
 interface Props {
@@ -14,9 +15,9 @@ export default function KanbanBoard({ board }: Props) {
         <ColumnSection key={column.id} column={column} />
       ))}
 
-      <div className="mt-10 flex items-center justify-center rounded-md bg-gradient-to-b from-[#e9effa] to-[#e9effa]/50 text-muted-foreground dark:from-[#2b2c37] dark:to-[#2b2c37]/50">
-        <h1>+ New Column</h1>
-      </div>
+      <Card className="mt-10 flex items-center justify-center bg-gradient-to-b from-[#e9effa] to-[#e9effa]/50 text-muted-foreground dark:from-[#2b2c37] dark:to-[#2b2c37]/50">
+        <h1 className="cursor-pointer hover:text-primary">+ New Column</h1>
+      </Card>
     </div>
   );
 }

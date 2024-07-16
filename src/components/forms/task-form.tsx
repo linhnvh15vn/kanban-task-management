@@ -152,7 +152,7 @@ export default function TaskForm() {
                         aria-label="remove"
                         onClick={() => handleRemoveSubtask(field.id, index)}
                       >
-                        <X />
+                        <X className="text-muted-foreground" />
                       </button>
                     </div>
                   </FormControl>
@@ -163,6 +163,7 @@ export default function TaskForm() {
           <Button
             disabled={fields.length >= 5}
             type="button"
+            variant="secondary"
             className="w-full"
             onClick={() => append({ title: "" })}
           >

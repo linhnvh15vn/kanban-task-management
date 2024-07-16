@@ -33,7 +33,7 @@
 
     --border: 221 69% 94%;
     --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --ring: 242 48% 58%;
 
     --radius: 0.5rem;
   }
@@ -67,7 +67,7 @@
 
     --border: 236 11% 27%;
     --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ring: 242 48% 58%;
   }
 }
 
@@ -77,6 +77,18 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    @apply h-1 w-1;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary;
   }
 
   h1,
