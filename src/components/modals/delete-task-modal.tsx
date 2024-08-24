@@ -47,7 +47,7 @@ export default function DeleteTaskModal() {
         <AlertDialogFooter>
           <AlertDialogAction
             className={cn("w-full", buttonVariants({ variant: "destructive" }))}
-            onClick={() => deleteTask({ id: data.task?.id })}
+            onClick={() => deleteTask({ id: data.task!.id })}
           >
             Delete
           </AlertDialogAction>
