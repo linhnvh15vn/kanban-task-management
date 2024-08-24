@@ -23,7 +23,9 @@ export default function DeleteBoardModal() {
   const isVisible = type === "DELETE_BOARD";
 
   const { mutate: deleteBoard } = api.board.delete.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => {
+      console.log("Success");
+    },
   });
 
   return (
@@ -42,7 +44,7 @@ export default function DeleteBoardModal() {
         <AlertDialogFooter>
           <AlertDialogAction
             className={cn("w-full", buttonVariants({ variant: "destructive" }))}
-            onClick={() => deleteBoard({ id: data.board?.id })}
+            onClick={() => deleteBoard({ id: data.board!.id })}
           >
             Delete
           </AlertDialogAction>

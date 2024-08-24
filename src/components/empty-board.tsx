@@ -2,11 +2,7 @@ import React from "react";
 
 import { Button } from "~/components/ui/button";
 
-interface Props {
-  // Add your component props here
-}
-
-export default function EmptyBoard(props: Props) {
+export default function EmptyBoard() {
   return (
     <div className="flex h-full items-center justify-center">
       <div className="space-y-8 text-center text-muted-foreground">
