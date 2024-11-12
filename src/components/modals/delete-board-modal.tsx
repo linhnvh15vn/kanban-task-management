@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 import {
   AlertDialog,
@@ -11,20 +11,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogFooter,
-} from "~/components/ui/alert-dialog";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-import { useModalStore } from "~/store/use-modal-store";
-import { api } from "~/trpc/react";
+} from '~/components/ui/alert-dialog';
+import { buttonVariants } from '~/components/ui/button';
+import { ModalType } from '~/enums';
+import { cn } from '~/lib/utils';
+import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 
 export default function DeleteBoardModal() {
   const { type, data, onClose } = useModalStore();
 
-  const isVisible = type === "DELETE_BOARD";
+  const isVisible = type === ModalType.DEL_BOARD;
 
   const { mutate: deleteBoard } = api.board.delete.useMutation({
     onSuccess: () => {
-      console.log("Success");
+      console.log('Success');
     },
   });
 
@@ -43,13 +44,13 @@ export default function DeleteBoardModal() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction
-            className={cn("w-full", buttonVariants({ variant: "destructive" }))}
+            className={cn('w-full', buttonVariants({ variant: 'destructive' }))}
             onClick={() => deleteBoard({ id: data.board!.id })}
           >
             Delete
           </AlertDialogAction>
           <AlertDialogCancel
-            className={cn("w-full", buttonVariants({ variant: "secondary" }))}
+            className={cn('w-full', buttonVariants({ variant: 'secondary' }))}
           >
             Cancel
           </AlertDialogCancel>

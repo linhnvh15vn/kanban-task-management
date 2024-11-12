@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useFieldArray, useForm } from 'react-hook-form';
 
-import { Button } from "~/components/ui/button";
+import { Button } from '~/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,26 +15,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+} from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
-import { Textarea } from "~/components/ui/textarea";
-import { cn } from "~/lib/utils";
-import { taskSchema, type InferredTaskSchema } from "~/schemas/task.schema";
-import { useModalStore } from "~/store/use-modal-store";
-import { api } from "~/trpc/react";
+} from '~/components/ui/select';
+import { Textarea } from '~/components/ui/textarea';
+import { ModalType } from '~/enums';
+import { cn } from '~/lib/utils';
+import { taskSchema, type InferredTaskSchema } from '~/schemas/task.schema';
+import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 
 const defaultValues: InferredTaskSchema = {
-  title: "",
+  title: '',
   description: null,
-  subtasks: [{ title: "" }, { title: "" }],
-  columnId: "",
+  subtasks: [{ title: '' }, { title: '' }],
+  columnId: '',
 };
 
 export default function TaskForm() {
@@ -51,8 +52,8 @@ export default function TaskForm() {
   });
 
   const { fields, append, remove } = useFieldArray({
-    keyName: "fieldId" as "id",
-    name: "subtasks",
+    keyName: 'fieldId' as 'id',
+    name: 'subtasks',
     control: form.control,
   });
 
@@ -73,7 +74,7 @@ export default function TaskForm() {
       router.refresh();
     },
     onSettled: (data) => {
-      onOpen("TASK_DETAIL", { task: data });
+      onOpen(ModalType.VIEW_TASK, { task: data });
     },
   });
 
@@ -98,8 +99,8 @@ export default function TaskForm() {
   return (
     <Form {...form}>
       <form
-        id="task-form"
-        name="task-form"
+        id={ModalType.TASK}
+        name={ModalType.TASK}
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6"
       >
@@ -125,7 +126,7 @@ export default function TaskForm() {
               <FormControl>
                 <Textarea
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                   placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
                 />
               </FormControl>
@@ -143,7 +144,7 @@ export default function TaskForm() {
               name={`subtasks.${index}.title`}
               render={({ field: formField }) => (
                 <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                  <FormLabel className={cn(index !== 0 && 'sr-only')}>
                     Subtasks
                   </FormLabel>
                   <FormControl>
@@ -167,7 +168,7 @@ export default function TaskForm() {
             type="button"
             variant="secondary"
             className="w-full"
-            onClick={() => append({ title: "" })}
+            onClick={() => append({ title: '' })}
           >
             + Add New Subtask
           </Button>
@@ -181,7 +182,7 @@ export default function TaskForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder={field.value || "Select status"} />
+                    <SelectValue placeholder={field.value || 'Select status'} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

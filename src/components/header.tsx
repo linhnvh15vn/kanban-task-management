@@ -1,23 +1,24 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { ChevronDown, EllipsisVertical, Plus } from "lucide-react";
-import Image from "next/image";
-import { useTheme } from "next-themes";
+import { ChevronDown, EllipsisVertical, Plus } from 'lucide-react';
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
-import NavigationMobile from "~/components/navigation/navigation-mobile";
-import { Button } from "~/components/ui/button";
+import NavigationMobile from '~/components/navigation/navigation-mobile';
+import { Button } from '~/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "~/components/ui/dropdown-menu";
-import { cn } from "~/lib/utils";
-import { useGlobalStore } from "~/store/use-global-store";
-import { useModalStore } from "~/store/use-modal-store";
-import { type Board } from "~/types";
+} from '~/components/ui/dropdown-menu';
+import { ModalType } from '~/enums';
+import { cn } from '~/lib/utils';
+import { useGlobalStore } from '~/store/use-global-store';
+import { useModalStore } from '~/store/use-modal-store';
+import { type Board } from '~/types';
 
 interface Props {
   board: Board;
@@ -33,11 +34,11 @@ export default function Header({ board }: Props) {
       <div className="flex h-16 items-center border-b md:h-20 xl:h-24">
         <div
           className={cn(
-            "hidden h-full items-center border-r px-6 md:flex",
-            !isNav ? "w-fit" : "w-[260px] xl:w-[300px]",
+            'hidden h-full items-center border-r px-6 md:flex',
+            !isNav ? 'w-fit' : 'w-[260px] xl:w-[300px]',
           )}
         >
-          {theme === "light" ? (
+          {theme === 'light' ? (
             <Image
               src="/assets/logo-dark.svg"
               width={153}
@@ -75,7 +76,7 @@ export default function Header({ board }: Props) {
             <Button
               type="button"
               size="icon"
-              onClick={() => onOpen("TASK_FORM")}
+              onClick={() => onOpen(ModalType.TASK)}
               className="md:hidden"
             >
               <Plus className="size-5" />
@@ -83,7 +84,7 @@ export default function Header({ board }: Props) {
             <Button
               type="button"
               size="lg"
-              onClick={() => onOpen("TASK_FORM")}
+              onClick={() => onOpen(ModalType.TASK)}
               className="hidden md:block"
             >
               + Add New Task
@@ -95,7 +96,7 @@ export default function Header({ board }: Props) {
               <DropdownMenuContent sideOffset={24}>
                 <DropdownMenuItem
                   onClick={() =>
-                    onOpen("BOARD_FORM", {
+                    onOpen(ModalType.BOARD, {
                       board,
                     })
                   }
@@ -105,7 +106,7 @@ export default function Header({ board }: Props) {
                 <DropdownMenuItem
                   className="text-destructive"
                   onClick={() =>
-                    onOpen("DELETE_BOARD", {
+                    onOpen(ModalType.DEL_BOARD, {
                       board,
                     })
                   }

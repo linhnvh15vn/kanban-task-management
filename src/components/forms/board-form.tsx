@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useFieldArray, useForm } from 'react-hook-form';
 
-import { Button } from "~/components/ui/button";
+import { Button } from '~/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,16 +15,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { cn } from "~/lib/utils";
-import { boardSchema, type InferredBoardSchema } from "~/schemas/board.schema";
-import { useModalStore } from "~/store/use-modal-store";
-import { api } from "~/trpc/react";
+} from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
+import { ModalType } from '~/enums';
+import { cn } from '~/lib/utils';
+import { boardSchema, type InferredBoardSchema } from '~/schemas/board.schema';
+import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 
 const defaultValues: InferredBoardSchema = {
-  name: "",
-  columns: [{ name: "Todo" }, { name: "Doing" }, { name: "Done" }],
+  name: '',
+  columns: [{ name: 'Todo' }, { name: 'Doing' }, { name: 'Done' }],
 };
 
 export default function BoardForm() {
@@ -39,8 +40,8 @@ export default function BoardForm() {
   });
 
   const { fields, append, remove } = useFieldArray<InferredBoardSchema>({
-    keyName: "fieldId" as "id",
-    name: "columns",
+    keyName: 'fieldId' as 'id',
+    name: 'columns',
     control: form.control,
   });
 
@@ -79,8 +80,8 @@ export default function BoardForm() {
   return (
     <Form {...form}>
       <form
-        id="board-form"
-        name="board-form"
+        id={ModalType.BOARD}
+        name={ModalType.BOARD}
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6"
       >
@@ -107,7 +108,7 @@ export default function BoardForm() {
               name={`columns.${index}.name`}
               render={({ field: formField }) => (
                 <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
+                  <FormLabel className={cn(index !== 0 && 'sr-only')}>
                     Columns
                   </FormLabel>
                   <FormControl>
@@ -130,7 +131,7 @@ export default function BoardForm() {
             type="button"
             className="w-full"
             variant="secondary"
-            onClick={() => append({ name: "" })}
+            onClick={() => append({ name: '' })}
           >
             + Add New Column
           </Button>

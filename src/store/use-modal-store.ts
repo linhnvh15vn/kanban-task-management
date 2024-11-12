@@ -1,13 +1,7 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { type Board, type Task } from "~/types";
-
-type ModalType =
-  | "TASK_DETAIL"
-  | "DELETE_TASK"
-  | "DELETE_BOARD"
-  | "TASK_FORM"
-  | "BOARD_FORM";
+import { type ModalType } from '~/enums';
+import { type Board, type Task } from '~/types';
 
 interface ModalData {
   task?: Task;

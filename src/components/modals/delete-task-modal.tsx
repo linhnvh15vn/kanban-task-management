@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 import {
   AlertDialog,
@@ -13,17 +13,18 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-import { useModalStore } from "~/store/use-modal-store";
-import { api } from "~/trpc/react";
+} from '~/components/ui/alert-dialog';
+import { buttonVariants } from '~/components/ui/button';
+import { ModalType } from '~/enums';
+import { cn } from '~/lib/utils';
+import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 
 export default function DeleteTaskModal() {
   const router = useRouter();
   const { type, data, onClose } = useModalStore();
 
-  const isVisible = type === "DELETE_TASK";
+  const isVisible = type === ModalType.DEL_TASK;
 
   const { mutate: deleteTask } = api.task.delete.useMutation({
     onSuccess: () => {
@@ -46,13 +47,13 @@ export default function DeleteTaskModal() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction
-            className={cn("w-full", buttonVariants({ variant: "destructive" }))}
+            className={cn('w-full', buttonVariants({ variant: 'destructive' }))}
             onClick={() => deleteTask({ id: data.task!.id })}
           >
             Delete
           </AlertDialogAction>
           <AlertDialogCancel
-            className={cn("w-full", buttonVariants({ variant: "secondary" }))}
+            className={cn('w-full', buttonVariants({ variant: 'secondary' }))}
           >
             Cancel
           </AlertDialogCancel>

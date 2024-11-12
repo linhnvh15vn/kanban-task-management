@@ -1,40 +1,41 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { EllipsisVertical } from "lucide-react";
-import { useParams } from "next/navigation";
+import { EllipsisVertical } from 'lucide-react';
+import { useParams } from 'next/navigation';
 
-import SubtaskCard from "~/components/subtask-card";
+import SubtaskCard from '~/components/subtask-card';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog";
+} from '~/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { Label } from "~/components/ui/label";
+} from '~/components/ui/dropdown-menu';
+import { Label } from '~/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/ui/select";
-import { useModalStore } from "~/store/use-modal-store";
-import { api } from "~/trpc/react";
+} from '~/components/ui/select';
+import { ModalType } from '~/enums';
+import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 
 export default function TaskDetailModal() {
   const params = useParams();
   const { type, data, onOpen, onClose } = useModalStore();
 
-  const isVisible = type === "TASK_DETAIL";
+  const isVisible = type === ModalType.VIEW_TASK;
 
   const { data: columnData } = api.board.getBoardColumns.useQuery(
     { id: params.boardId as string },
@@ -60,13 +61,15 @@ export default function TaskDetailModal() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem
-                  onClick={() => onOpen("TASK_FORM", { task: data.task })}
+                  onClick={() => onOpen(ModalType.TASK, { task: data.task })}
                 >
                   Edit Task
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-destructive"
-                  onClick={() => onOpen("DELETE_TASK", { task: data.task })}
+                  onClick={() =>
+                    onOpen(ModalType.DEL_TASK, { task: data.task })
+                  }
                 >
                   Delete Task
                 </DropdownMenuItem>

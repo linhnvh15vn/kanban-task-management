@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import BoardForm from "~/components/forms/board-form";
-import { Button } from "~/components/ui/button";
+import BoardForm from '~/components/forms/board-form';
+import { Button } from '~/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog";
+} from '~/components/ui/dialog';
+import { ModalType } from '~/enums';
 
 export default function InitialModal() {
   return (
@@ -21,7 +22,7 @@ export default function InitialModal() {
         </DialogHeader>
         <BoardForm />
         <DialogFooter>
-          <Button type="submit" form="board-form" className="w-full">
+          <Button type="submit" form={ModalType.BOARD} className="w-full">
             Create New Board
           </Button>
         </DialogFooter>
