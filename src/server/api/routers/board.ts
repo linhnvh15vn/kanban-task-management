@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { createBoardSchema, updateBoardSchema } from "~/schemas/board.schema";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createBoardSchema, updateBoardSchema } from '~/schemas/board.schema';
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 
 export const boardRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.board.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: 'asc',
       },
     });
   }),
@@ -23,14 +23,14 @@ export const boardRouter = createTRPCRouter({
           columns: {
             include: {
               tasks: {
-                include: {
-                  column: {
+                select: {
+                  id: true,
+                  title: true,
+                  subtasks: {
                     select: {
-                      id: true,
-                      name: true,
+                      isCompleted: true,
                     },
                   },
-                  subtasks: true,
                 },
               },
             },

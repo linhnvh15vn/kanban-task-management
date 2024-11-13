@@ -22,8 +22,10 @@ const fontSans = FontSans({
 
 export default function RootLayout({
   children,
+  taskModal,
 }: {
   children: React.ReactNode;
+  taskModal: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -36,6 +38,7 @@ export default function RootLayout({
         <TRPCReactProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {children}
+            {taskModal}
             <ModalProvider />
             <Toaster />
           </ThemeProvider>

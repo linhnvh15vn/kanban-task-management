@@ -2,14 +2,14 @@
 
 import React from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import { ModalType } from '~/enums';
-import { useModalStore } from '~/store/use-modal-store';
 import { type Task } from '~/types';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function TaskCard({ task }: Props) {
-  const { onOpen } = useModalStore();
+  const router = useRouter();
 
   const getDescription = () => {
     const total = task.subtasks?.length;
@@ -29,7 +29,7 @@ export default function TaskCard({ task }: Props) {
   return (
     <Card
       className="cursor-pointer"
-      onClick={() => onOpen(ModalType.VIEW_TASK, { task })}
+      onClick={() => router.push(`/tasks/${task.id}`)}
     >
       <CardHeader>
         <CardTitle className="text-sm font-bold hover:text-primary">
