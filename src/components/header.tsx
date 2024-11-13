@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ChevronDown, EllipsisVertical, Plus } from 'lucide-react';
 import Image from 'next/image';
@@ -28,6 +28,13 @@ export default function Header({ board }: Props) {
   const { onOpen } = useModalStore();
   const { isNav } = useGlobalStore();
   const { theme } = useTheme();
+  const [imageSrc, setImageSrc] = useState('/assets/logo-dark.svg');
+
+  useEffect(() => {
+    setImageSrc(
+      theme === 'dark' ? '/assets/logo-light.svg' : '/assets/logo-dark.svg',
+    );
+  }, [theme]);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-card">
@@ -38,21 +45,13 @@ export default function Header({ board }: Props) {
             !isNav ? 'w-fit' : 'w-[260px] xl:w-[300px]',
           )}
         >
-          {theme === 'light' ? (
-            <Image
-              src="/assets/logo-dark.svg"
-              width={153}
-              height={26}
-              alt="Kanban Logo"
-            />
-          ) : (
-            <Image
-              src="/assets/logo-light.svg"
-              width={153}
-              height={26}
-              alt="Kanban Logo"
-            />
-          )}
+          <Image
+            src={imageSrc}
+            width={153}
+            height={26}
+            alt="Kanban Logo"
+            priority
+          />
         </div>
 
         <div className="flex flex-1 items-center justify-between px-4">
