@@ -1,15 +1,17 @@
-import React from "react";
+'use client';
 
-import ModeToggle from "~/components/mode-toggle";
-import NavigationCreateButton from "~/components/navigation/navigation-create-button";
-import NavigationItem from "~/components/navigation/navigation-item";
+import React from 'react';
+
+import ModeToggle from '~/components/mode-toggle';
+import NavigationCreateButton from '~/components/navigation/navigation-create-button';
+import NavigationItem from '~/components/navigation/navigation-item';
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuContent,
-} from "~/components/ui/dropdown-menu";
-import { api } from "~/trpc/react";
+} from '~/components/ui/dropdown-menu';
+import { api } from '~/trpc/react';
 
 interface Props {
   children: React.ReactNode;
@@ -29,7 +31,7 @@ export default function NavigationMobile({ children }: Props) {
         <h4 className="px-6 pb-5 text-muted-foreground">
           ALL BOARDS ({data?.length})
         </h4>
-        <div className="pb-5 pr-6">
+        <div className="max-h-72 overflow-y-auto pb-5 pr-6">
           {data?.map((board) => (
             <DropdownMenuItem asChild key={board.id}>
               <NavigationItem board={board} />
