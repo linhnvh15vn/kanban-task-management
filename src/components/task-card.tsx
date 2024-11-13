@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
-import { useModalStore } from "~/store/use-modal-store";
-import { type Task } from "~/types";
+} from '~/components/ui/card';
+import { ModalType } from '~/enums';
+import { useModalStore } from '~/store/use-modal-store';
+import { type Task } from '~/types';
 
 interface Props {
   task: Task;
@@ -28,7 +29,7 @@ export default function TaskCard({ task }: Props) {
   return (
     <Card
       className="cursor-pointer"
-      onClick={() => onOpen("TASK_DETAIL", { task })}
+      onClick={() => onOpen(ModalType.VIEW_TASK, { task })}
     >
       <CardHeader>
         <CardTitle className="text-sm font-bold hover:text-primary">
