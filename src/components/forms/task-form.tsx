@@ -42,6 +42,7 @@ export default function TaskForm() {
   const [deleteSubtaskIds, setDeleteSubtaskIds] = useState<string[]>([]);
 
   const router = useRouter();
+  const utils = api.useUtils();
   const params = useParams();
 
   const { data, onOpen, onClose } = useModalStore();
@@ -71,7 +72,8 @@ export default function TaskForm() {
   const { mutate: updateTask } = api.task.update.useMutation({
     onSuccess: () => {
       onClose();
-      router.refresh();
+      // router.refresh();
+      void utils.board.getById.invalidate();
     },
     onSettled: (data) => {
       onOpen(ModalType.VIEW_TASK, { task: data });

@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { columnSchema } from "~/schemas/column.schema";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { columnSchema } from '~/schemas/column.schema';
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 
 export const columnRouter = createTRPCRouter({
   update: publicProcedure.input(columnSchema).mutation(({ ctx, input }) => {

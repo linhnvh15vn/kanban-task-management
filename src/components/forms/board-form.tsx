@@ -32,6 +32,7 @@ export default function BoardForm() {
   const router = useRouter();
   const [deleteColumnIds, setDeleteColumnIds] = useState<string[]>([]);
 
+  const utils = api.useUtils();
   const { data, onClose } = useModalStore();
 
   const form = useForm<InferredBoardSchema>({
@@ -48,7 +49,7 @@ export default function BoardForm() {
   const { mutate: createBoard } = api.board.create.useMutation({
     onSuccess: () => {
       onClose();
-      router.refresh();
+      void utils.board.getAll.invalidate();
     },
   });
 

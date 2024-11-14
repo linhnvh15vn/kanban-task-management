@@ -1,15 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import dynamic from "next/dynamic";
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-// import Header from "~/components/header";
-import Navigation from "~/components/navigation";
-import { api } from "~/trpc/server";
-
-const Header = dynamic(() => import("~/components/header"), {
-  ssr: false,
-});
+import Header from '~/components/header';
+import Navigation from '~/components/navigation';
+import { api } from '~/trpc/server';
 
 interface Props {
   children: React.ReactNode;

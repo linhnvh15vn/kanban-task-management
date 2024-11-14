@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const taskSchema = z.object({
   title: z.string().min(1, "Can't be empty!"),

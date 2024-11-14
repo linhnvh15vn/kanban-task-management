@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { Eye } from "lucide-react";
+import { Eye } from 'lucide-react';
 
-import { Button } from "~/components/ui/button";
-import { useGlobalStore } from "~/store/use-global-store";
+import { Button } from '~/components/ui/button';
+import { useGlobalStore } from '~/store/use-global-store';
 
 export default function NavigationOpenSidebar() {
   const { toggleNav } = useGlobalStore();

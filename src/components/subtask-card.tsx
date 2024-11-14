@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-import { Checkbox } from "~/components/ui/checkbox";
-import { Label } from "~/components/ui/label";
-import { cn } from "~/lib/utils";
-import { api } from "~/trpc/react";
-import { type Subtask } from "~/types";
+import { Checkbox } from '~/components/ui/checkbox';
+import { Label } from '~/components/ui/label';
+import { cn } from '~/lib/utils';
+import { api } from '~/trpc/react';
+import { type Subtask } from '~/types';
 
 interface Props {
   subtask: Subtask;
@@ -32,8 +32,8 @@ export default function SubtaskCard({ subtask }: Props) {
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center gap-4 rounded bg-background p-3 hover:bg-secondary-hover",
-        isCompleted ? "text-muted-foreground line-through" : "",
+        'flex cursor-pointer items-center gap-4 rounded bg-background p-3 hover:bg-secondary-hover',
+        isCompleted ? 'text-muted-foreground line-through' : '',
       )}
     >
       <Checkbox

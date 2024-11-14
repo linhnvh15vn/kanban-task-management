@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import ModeToggle from "~/components/mode-toggle";
-import NavigationCreateButton from "~/components/navigation/navigation-create-button";
-import NavigationHideSidebar from "~/components/navigation/navigation-hide-sidebar";
-import NavigationItem from "~/components/navigation/navigation-item";
-import NavigationOpenSidebar from "~/components/navigation/navigation-open-sidebar";
-import { ScrollArea } from "~/components/ui/scroll-area";
-import { Skeleton } from "~/components/ui/skeleton";
-import { useGlobalStore } from "~/store/use-global-store";
-import { api } from "~/trpc/react";
+import ModeToggle from '~/components/mode-toggle';
+import NavigationCreateButton from '~/components/navigation/navigation-create-button';
+import NavigationHideSidebar from '~/components/navigation/navigation-hide-sidebar';
+import NavigationItem from '~/components/navigation/navigation-item';
+import NavigationOpenSidebar from '~/components/navigation/navigation-open-sidebar';
+import { ScrollArea } from '~/components/ui/scroll-area';
+import { Skeleton } from '~/components/ui/skeleton';
+import { useGlobalStore } from '~/store/use-global-store';
+import { api } from '~/trpc/react';
 
 export default function Navigation() {
   const { isNav } = useGlobalStore();
-
   const { data, isLoading } = api.board.getAll.useQuery();
 
   if (isLoading) {

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import EmptyBoard from "~/components/empty-board";
-import KanbanBoard from "~/components/kanban-board";
-import { api } from "~/trpc/server";
+import EmptyBoard from '~/components/empty-board';
+import KanbanBoard from '~/components/kanban-board';
+import { api } from '~/trpc/server';
 
 interface Props {
   params: {
@@ -15,7 +15,7 @@ interface Props {
 export default async function Page({ params }: Props) {
   const board = await api.board.getById({ id: params.boardId });
   if (!board) {
-    return redirect("/");
+    return redirect('/');
   }
 
   return (

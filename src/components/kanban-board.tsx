@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import ColumnSection from "~/components/column-section";
-import { Card } from "~/components/ui/card";
-import { type Board } from "~/types";
+import ColumnSection from '~/components/column-section';
+import { Card } from '~/components/ui/card';
+import { type Board } from '~/types';
 
 interface Props {
   board: Board;

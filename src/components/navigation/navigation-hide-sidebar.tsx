@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { EyeOff } from "lucide-react";
+import { EyeOff } from 'lucide-react';
 
-import { useGlobalStore } from "~/store/use-global-store";
+import { useGlobalStore } from '~/store/use-global-store';
 
 export default function NavigationHideSidebar() {
   const { toggleNav } = useGlobalStore();

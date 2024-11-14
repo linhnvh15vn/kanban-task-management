@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { taskSchema, updateTaskSchema } from "~/schemas/task.schema";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { taskSchema, updateTaskSchema } from '~/schemas/task.schema';
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 
 export const taskRouter = createTRPCRouter({
   getById: publicProcedure

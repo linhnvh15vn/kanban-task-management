@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import TaskCard from "~/components/task-card";
-import { type Column } from "~/types";
+import TaskCard from '~/components/task-card';
+import { type Column } from '~/types';
 
 interface Props {
   column: Column;
