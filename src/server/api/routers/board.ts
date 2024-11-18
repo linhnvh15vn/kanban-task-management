@@ -14,23 +14,22 @@ export const boardRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.db.board.findUnique({
         where: {
           id: input.id,
         },
-        include: {
+        select: {
+          name: true,
           columns: {
-            include: {
+            select: {
+              id: true,
+              name: true,
               tasks: {
                 select: {
                   id: true,
                   title: true,
-                  subtasks: {
-                    select: {
-                      isCompleted: true,
-                    },
-                  },
+                  subtasks: true,
                 },
               },
             },
