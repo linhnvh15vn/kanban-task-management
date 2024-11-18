@@ -5,3 +5,8 @@ export enum ModalType {
   DEL_TASK = 'del_task',
   DEL_BOARD = 'del_board',
 }
+
+export enum DragItemType {
+  Column,
+  Card,
+}
