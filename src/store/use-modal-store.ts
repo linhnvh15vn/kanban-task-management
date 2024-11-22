@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 import { type ModalType } from '~/enums';
-import { type Board, type Task } from '~/types';
+import { type GetTaskById, type GetBoardById } from '~/types';
 
 interface ModalData {
-  task?: Task;
-  board?: Board;
+  task?: GetTaskById;
+  board?: GetBoardById;
 }
 
 interface ModalStore {

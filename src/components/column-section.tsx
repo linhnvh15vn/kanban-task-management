@@ -1,10 +1,10 @@
 import React from 'react';
 
 import TaskCard from '~/components/task-card';
-import { type Column } from '~/types';
+import { type GetBoardById, type Column } from '~/types';
 
 interface Props {
-  column: Column;
+  column: GetBoardById['columns'][number];
 }
 
 export default function ColumnSection({ column }: Props) {
@@ -13,7 +13,7 @@ export default function ColumnSection({ column }: Props) {
       <div className="flex items-center gap-3">
         <div className="size-4 rounded-full bg-blue-300" />
         <h4 className="text-muted-foreground">
-          {`${column.name.toUpperCase()} (${column.tasks?.length})`}
+          {column.name.toUpperCase()} ({column.tasks?.length})
         </h4>
       </div>
       <div className="space-y-5">

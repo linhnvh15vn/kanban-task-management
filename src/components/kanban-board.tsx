@@ -2,10 +2,10 @@ import React from 'react';
 
 import ColumnSection from '~/components/column-section';
 import { Card } from '~/components/ui/card';
-import { type Board } from '~/types';
+import { type GetBoardById } from '~/types';
 
 interface Props {
-  board: Board;
+  board: GetBoardById;
 }
 
 export default function KanbanBoard({ board }: Props) {

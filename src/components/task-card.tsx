@@ -10,10 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import { type Task } from '~/types';
+import { type GetBoardById } from '~/types';
 
 interface Props {
-  task: Task;
+  task: GetBoardById['columns'][number]['tasks'][number];
 }
 
 export default function TaskCard({ task }: Props) {
