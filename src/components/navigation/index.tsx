@@ -16,39 +16,33 @@ export default function Navigation() {
   const { isNav } = useGlobalStore();
   const { data, isLoading } = api.board.getAll.useQuery();
 
-  if (isLoading) {
-    return (
-      isNav && (
-        <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-[260px] border-r bg-card md:block xl:h-[calc(100vh-96px)] xl:w-[300px]">
-          <div className="flex h-full flex-col space-y-4 py-8">
-            <ScrollArea className="flex-1 pr-6">
+  return isNav ? (
+    <aside className="sticky top-24 hidden border-r bg-card md:block md:h-[calc(100vh-var(--header-md))] md:w-nav-md xl:h-[calc(100vh-var(--header-xl))] xl:w-nav-xl">
+      <div className="flex h-full flex-col space-y-4 py-8">
+        <ScrollArea className="flex-1 pr-6">
+          {isLoading ? (
+            <>
               <h4 className="px-6 pb-5 text-muted-foreground">ALL BOARDS</h4>
               <div className="space-y-3">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Skeleton key={index} className="h-6 w-full" />
                 ))}
               </div>
-            </ScrollArea>
-          </div>
-        </aside>
-      )
-    );
-  }
+            </>
+          ) : (
+            <>
+              <h4 className="px-6 pb-5 text-muted-foreground">
+                ALL BOARDS ({data?.length})
+              </h4>
+              <div>
+                {data?.map((board) => (
+                  <NavigationItem key={board.id} board={board} />
+                ))}
 
-  return isNav ? (
-    <aside className="sticky top-24 hidden h-[calc(100vh-80px)] w-[260px] border-r bg-card md:block xl:h-[calc(100vh-96px)] xl:w-[300px]">
-      <div className="flex h-full flex-col space-y-4 py-8">
-        <ScrollArea className="flex-1 pr-6">
-          <h4 className="px-6 pb-5 text-muted-foreground">
-            ALL BOARDS ({data?.length})
-          </h4>
-          <div>
-            {data?.map((board) => (
-              <NavigationItem key={board.id} board={board} />
-            ))}
-
-            <NavigationCreateButton />
-          </div>
+                <NavigationCreateButton />
+              </div>
+            </>
+          )}
         </ScrollArea>
 
         <ModeToggle />

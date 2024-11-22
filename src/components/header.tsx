@@ -18,10 +18,10 @@ import { ModalType } from '~/enums';
 import { cn } from '~/lib/utils';
 import { useGlobalStore } from '~/store/use-global-store';
 import { useModalStore } from '~/store/use-modal-store';
-import { type Board } from '~/types';
+import { type GetBoardById } from '~/types';
 
 interface Props {
-  board: Board;
+  board: GetBoardById;
 }
 
 export default function Header({ board }: Props) {
@@ -38,11 +38,11 @@ export default function Header({ board }: Props) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-card">
-      <div className="flex h-16 items-center border-b md:h-20 xl:h-24">
+      <div className="flex h-header-sm items-center border-b md:h-header-md xl:h-header-xl">
         <div
           className={cn(
             'hidden h-full items-center border-r px-6 md:flex',
-            !isNav ? 'w-fit' : 'w-[260px] xl:w-[300px]',
+            !isNav ? 'w-fit' : 'md:w-nav-md xl:w-nav-xl',
           )}
         >
           <Image
@@ -65,7 +65,7 @@ export default function Header({ board }: Props) {
             />
             <NavigationMobile>
               <h1 className="flex items-center gap-2 text-lg md:text-2xl">
-                {board.name}
+                {board?.name}
                 <ChevronDown className="size-5 stroke-2 text-primary sm:hidden" />
               </h1>
             </NavigationMobile>

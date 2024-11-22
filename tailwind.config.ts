@@ -23,6 +23,15 @@ const config = {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
       },
+      width: {
+        'nav-md': 'var(--nav-md)',
+        'nav-xl': 'var(--nav-xl)',
+      },
+      height: {
+        'header-sm': 'var(--header-sm)',
+        'header-md': 'var(--header-md)',
+        'header-xl': 'var(--header-xl)',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -22,7 +22,7 @@
     --secondary-hover: 242 48% 89%;
 
     --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted-foreground: 216 15% 57%;
 
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
@@ -36,6 +36,13 @@
     --ring: 242 48% 58%;
 
     --radius: 0.5rem;
+
+    --header-sm: 4rem;
+    --header-md: 5rem;
+    --header-xl: 6rem;
+
+    --nav-md: 260px;
+    --nav-xl: 300px;
   }
 
   .dark {
