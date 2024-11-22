@@ -16,7 +16,7 @@ import { ModalType } from '~/enums';
 export default function InitialModal() {
   return (
     <Dialog open>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Add New Board</DialogTitle>
         </DialogHeader>

@@ -21,7 +21,7 @@ export default function BoardModal() {
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>
             {data.board ? 'Edit Board' : 'Add New Board'}

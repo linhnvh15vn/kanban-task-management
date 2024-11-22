@@ -7,7 +7,6 @@ import { Button } from '~/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -22,10 +21,9 @@ export default function TaskModal() {
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{data?.task ? 'Edit Task' : 'Add New Task'}</DialogTitle>
-          <DialogDescription></DialogDescription>
         </DialogHeader>
         <TaskForm />
         <DialogFooter>
