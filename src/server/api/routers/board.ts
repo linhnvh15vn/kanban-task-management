@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { createBoardSchema, updateBoardSchema } from '~/schemas/board.schema';
@@ -14,8 +15,8 @@ export const boardRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
-    .query(({ ctx, input }) => {
-      return ctx.db.board.findUnique({
+    .query(async ({ ctx, input }) => {
+      const board = await ctx.db.board.findUnique({
         where: {
           id: input.id,
         },
@@ -37,6 +38,15 @@ export const boardRouter = createTRPCRouter({
           },
         },
       });
+
+      if (!board) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'No board found with this id.',
+        });
+      }
+
+      return board;
     }),
 
   getFirst: publicProcedure.query(({ ctx }) => {
