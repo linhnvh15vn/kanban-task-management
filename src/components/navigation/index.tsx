@@ -19,7 +19,7 @@ export default function Navigation() {
   return isNav ? (
     <aside className="sticky top-24 hidden border-r bg-card md:block md:h-[calc(100vh-var(--header-md))] md:w-nav-md xl:h-[calc(100vh-var(--header-xl))] xl:w-nav-xl">
       <div className="flex h-full flex-col space-y-4 py-8">
-        <ScrollArea className="flex-1 pr-6">
+        <ScrollArea className="flex-1 md:pr-5 xl:pr-6">
           {isLoading ? (
             <>
               <h4 className="px-6 pb-5 text-muted-foreground">ALL BOARDS</h4>

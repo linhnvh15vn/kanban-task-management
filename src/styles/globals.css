@@ -118,6 +118,6 @@
   }
 
   h4 {
-    @apply text-xs tracking-widest;
+    @apply tracking-2.4 text-xs;
   }
 }

@@ -32,6 +32,9 @@ const config = {
         'header-md': 'var(--header-md)',
         'header-xl': 'var(--header-xl)',
       },
+      letterSpacing: {
+        '2.4': '2.4px',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
