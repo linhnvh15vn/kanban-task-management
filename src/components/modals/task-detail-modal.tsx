@@ -1,7 +1,7 @@
 'use client';
 
 import { EllipsisVertical } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import SubtaskCard from '~/components/subtask-card';
 import {
@@ -21,16 +21,22 @@ import { Label } from '~/components/ui/label';
 import { Select, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { ModalType } from '~/enums';
 import { useModalStore } from '~/store/use-modal-store';
+import { api } from '~/trpc/react';
 import { type GetTaskById } from '~/types';
 
 interface Props {
-  task: GetTaskById;
+  initialData: GetTaskById;
 }
 
-export default function TaskDetailModal({ task }: Props) {
+export default function TaskDetailModal({ initialData }: Props) {
   const router = useRouter();
-
+  const params = useParams();
   const { onOpen } = useModalStore();
+
+  const { data: task } = api.task.getById.useQuery(
+    { id: params.taskId },
+    { initialData },
+  );
 
   const total = task.subtasks.length;
   const done = task.subtasks.filter((subtask) => subtask.isCompleted).length;

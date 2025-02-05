@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import {
   AlertDialog,
@@ -16,20 +16,29 @@ import {
 } from '~/components/ui/alert-dialog';
 import { buttonVariants } from '~/components/ui/button';
 import { ModalType } from '~/enums';
+import { useToast } from '~/hooks/use-toast';
 import { cn } from '~/lib/utils';
 import { useModalStore } from '~/store/use-modal-store';
 import { api } from '~/trpc/react';
+import { type Params } from '~/types';
 
 export default function DeleteTaskModal() {
+  const params = useParams<Params>();
   const router = useRouter();
+  const { toast } = useToast();
+  const utils = api.useUtils();
   const { type, data, onClose } = useModalStore();
 
   const isVisible = type === ModalType.DEL_TASK;
 
   const { mutate: deleteTask } = api.task.delete.useMutation({
-    onSuccess: () => {
+    onSuccess: () => toast({ title: 'Task deleted successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to delete task!' }),
+    onSettled: () => {
+      void utils.board.getById.invalidate({ id: params.boardId });
       onClose();
-      router.refresh();
+      router.back();
     },
   });
 

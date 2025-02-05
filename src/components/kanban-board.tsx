@@ -1,7 +1,12 @@
+'use client';
+
 import React from 'react';
+
+import { useParams } from 'next/navigation';
 
 import ColumnSection from '~/components/column-section';
 import { Card } from '~/components/ui/card';
+import { api } from '~/trpc/react';
 import { type GetBoardById } from '~/types';
 
 interface Props {
@@ -9,13 +14,20 @@ interface Props {
 }
 
 export default function KanbanBoard({ board }: Props) {
+  const params = useParams<{ boardId: string }>();
+
+  const { data } = api.board.getById.useQuery(
+    { id: params.boardId },
+    { initialData: board },
+  );
+
   return (
     <div className="grid h-full auto-cols-[280px] grid-flow-col gap-x-6 overflow-x-auto px-4 py-6">
-      {board.columns?.map((column) => (
+      {data.columns?.map((column) => (
         <ColumnSection key={column.id} column={column} />
       ))}
 
-      <Card className="mt-10 flex items-center justify-center bg-gradient-to-b from-[#e9effa] to-[#e9effa]/50 text-muted-foreground dark:from-[#2b2c37] dark:to-[#2b2c37]/50">
+      <Card className="mt-10 flex items-center justify-center bg-card text-muted-foreground">
         <h1 className="cursor-pointer hover:text-primary">+ New Column</h1>
       </Card>
     </div>

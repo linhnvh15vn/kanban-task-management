@@ -25,3 +25,8 @@ export type Subtask = PrismaSubtask;
 export type GetBoardById = Awaited<ReturnType<typeof api.board.getById>>;
 
 export type GetTaskById = Awaited<ReturnType<typeof api.task.getById>>;
+
+export type Params = {
+  boardId: string;
+  taskId?: string;
+};

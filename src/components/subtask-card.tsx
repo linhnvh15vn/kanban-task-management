@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import { Checkbox } from '~/components/ui/checkbox';
 import { Label } from '~/components/ui/label';
@@ -15,13 +15,15 @@ interface Props {
 }
 
 export default function SubtaskCard({ subtask }: Props) {
-  const router = useRouter();
   const [isCompleted, setIsCompleted] = useState(subtask.isCompleted);
+  const utils = api.useUtils();
+  const params = useParams();
 
   const { mutate: changeStatus } = api.subtask.changeStatus.useMutation({
     onSuccess: (data) => {
       setIsCompleted(data.isCompleted);
-      router.refresh();
+      void utils.board.getById.invalidate({ id: params.boardId });
+      void utils.task.getById.invalidate({ id: params.taskId });
     },
   });
 

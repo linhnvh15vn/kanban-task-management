@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { Button } from '~/components/ui/button';
@@ -26,6 +26,7 @@ import {
 } from '~/components/ui/select';
 import { Textarea } from '~/components/ui/textarea';
 import { ModalType } from '~/enums';
+import { useToast } from '~/hooks/use-toast';
 import { cn } from '~/lib/utils';
 import { taskSchema, type InferredTaskSchema } from '~/schemas/task.schema';
 import { useModalStore } from '~/store/use-modal-store';
@@ -39,13 +40,13 @@ const defaultValues: InferredTaskSchema = {
 };
 
 export default function TaskForm() {
+  const params = useParams<{ boardId: string }>();
   const [deleteSubtaskIds, setDeleteSubtaskIds] = useState<string[]>([]);
+  const { toast } = useToast();
 
-  const router = useRouter();
   const utils = api.useUtils();
-  const params = useParams();
 
-  const { data, onOpen, onClose } = useModalStore();
+  const { data, onClose } = useModalStore();
 
   const form = useForm({
     defaultValues: data.task ?? defaultValues,
@@ -59,24 +60,27 @@ export default function TaskForm() {
   });
 
   const { data: columnData } = api.board.getBoardColumns.useQuery({
-    id: params.boardId as string,
+    id: params.boardId,
   });
 
   const { mutate: createTask } = api.task.create.useMutation({
-    onSuccess: () => {
+    onSuccess: () => toast({ title: 'Task created successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to create task!' }),
+    onSettled: () => {
+      void utils.board.getById.invalidate({ id: params.boardId });
       onClose();
-      router.refresh();
     },
   });
 
   const { mutate: updateTask } = api.task.update.useMutation({
-    onSuccess: () => {
+    onSuccess: () => toast({ title: 'Task updated successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to update task!' }),
+    onSettled: () => {
+      void utils.task.getById.invalidate({ id: params.taskId });
+      void utils.board.getById.invalidate({ id: params.boardId });
       onClose();
-      // router.refresh();
-      void utils.board.getById.invalidate();
-    },
-    onSettled: (data) => {
-      onOpen(ModalType.VIEW_TASK, { task: data });
     },
   });
 

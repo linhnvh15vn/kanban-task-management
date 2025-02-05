@@ -18,5 +18,5 @@ interface Props {
 export default async function Page({ params }: Props) {
   const task = await api.task.getById({ id: params.taskId });
 
-  return <TaskDetailModal task={task} />;
+  return <TaskDetailModal initialData={task} />;
 }

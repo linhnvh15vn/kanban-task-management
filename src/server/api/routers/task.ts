@@ -13,7 +13,9 @@ export const taskRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          subtasks: true,
+          subtasks: {
+            orderBy: { title: 'asc' },
+          },
           column: {
             select: {
               name: true,
