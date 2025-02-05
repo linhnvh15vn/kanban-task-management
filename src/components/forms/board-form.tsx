@@ -18,6 +18,7 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { ModalType } from '~/enums';
+import { useToast } from '~/hooks/use-toast';
 import { cn } from '~/lib/utils';
 import { boardSchema, type InferredBoardSchema } from '~/schemas/board.schema';
 import { useModalStore } from '~/store/use-modal-store';
@@ -29,11 +30,10 @@ const defaultValues: InferredBoardSchema = {
 };
 
 export default function BoardForm() {
-  const router = useRouter();
   const [deleteColumnIds, setDeleteColumnIds] = useState<string[]>([]);
-
-  const utils = api.useUtils();
   const { data, onClose } = useModalStore();
+  const { toast } = useToast();
+  const utils = api.useUtils();
 
   const form = useForm<InferredBoardSchema>({
     defaultValues: data.board ?? defaultValues,
@@ -47,16 +47,22 @@ export default function BoardForm() {
   });
 
   const { mutate: createBoard } = api.board.create.useMutation({
-    onSuccess: () => {
-      onClose();
+    onSuccess: () => toast({ title: 'Board created successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to create board!' }),
+    onSettled: () => {
       void utils.board.getAll.invalidate();
+      onClose();
     },
   });
 
   const { mutate: updateBoard } = api.board.update.useMutation({
-    onSuccess: () => {
+    onSuccess: () => toast({ title: 'Board updated successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to update board!' }),
+    onSettled: () => {
+      void utils.board.getById.invalidate();
       onClose();
-      router.refresh();
     },
   });
 

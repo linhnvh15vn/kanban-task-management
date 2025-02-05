@@ -16,19 +16,23 @@ import {
 } from '~/components/ui/alert-dialog';
 import { buttonVariants } from '~/components/ui/button';
 import { ModalType } from '~/enums';
+import { useToast } from '~/hooks/use-toast';
 import { cn } from '~/lib/utils';
 import { useModalStore } from '~/store/use-modal-store';
 import { api } from '~/trpc/react';
 
 export default function DeleteBoardModal() {
   const router = useRouter();
+  const { toast } = useToast();
   const { type, data, onClose } = useModalStore();
 
   const isVisible = type === ModalType.DEL_BOARD;
 
   const { mutate: deleteBoard } = api.board.delete.useMutation({
+    onSuccess: () => toast({ title: 'Board deleted successfully!' }),
+    onError: () =>
+      toast({ variant: 'destructive', title: 'Failed to delete board!' }),
     onSettled: () => {
-      router.refresh();
       router.replace('/');
     },
   });
