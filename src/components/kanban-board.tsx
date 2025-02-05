@@ -27,7 +27,7 @@ export default function KanbanBoard({ board }: Props) {
         <ColumnSection key={column.id} column={column} />
       ))}
 
-      <Card className="mt-10 flex items-center justify-center bg-card text-muted-foreground">
+      <Card className="mt-10 flex items-center justify-center bg-gradient-to-t from-background text-muted-foreground">
         <h1 className="cursor-pointer hover:text-primary">+ New Column</h1>
       </Card>
     </div>
